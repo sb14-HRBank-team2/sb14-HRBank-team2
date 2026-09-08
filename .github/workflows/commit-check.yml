@@ -1,0 +1,39 @@
+name: Commit Message Check
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  commit-check:
+    name: Commit Message Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install commitlint
+        run: >
+          npm install --no-save --package-lock=false
+          @commitlint/cli@19.8.1
+          @commitlint/config-conventional@19.8.1
+
+      - name: Check PR commit messages
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: >
+          npx --no-install commitlint
+          --from "$BASE_SHA"
+          --to "$HEAD_SHA"
+          --verbose
