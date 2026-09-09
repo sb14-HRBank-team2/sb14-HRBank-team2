@@ -50,3 +50,4 @@ application-local.yaml
 *.pem
 *.p12
 *.jks
+
