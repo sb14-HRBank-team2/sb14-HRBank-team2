@@ -9,9 +9,9 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public enum EmployeeStatus {
-    ACTIVE("재직중"),
-    ON_LEAVE("휴직중"),
-    RESIGNED("퇴사");
+  ACTIVE("재직중"),
+  ON_LEAVE("휴직중"),
+  RESIGNED("퇴사");
 
-    String description;
+  String description;
 }

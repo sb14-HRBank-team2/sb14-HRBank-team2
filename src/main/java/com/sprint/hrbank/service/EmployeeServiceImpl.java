@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeRepository employeeRepository;
+  private final EmployeeRepository employeeRepository;
 
-    @Override
-    @Transactional
-    public Employee save(Employee employee) {
-        return employeeRepository.save(employee);
-    }
+  @Override
+  @Transactional
+  public Employee save(Employee employee) {
+    return employeeRepository.save(employee);
+  }
 }

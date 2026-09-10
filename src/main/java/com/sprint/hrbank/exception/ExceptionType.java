@@ -11,10 +11,10 @@ import org.slf4j.event.Level;
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public enum ExceptionType {
-    // 예시입니다 이런식으로 필요한 ENUM 추가하면 됩니다~
-    USER_NOT_FOUND(Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "User with id %s not found");
+  // 예시입니다 이런식으로 필요한 ENUM 추가하면 됩니다~
+  USER_NOT_FOUND(Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "User with id %s not found");
 
-    Level level;
-    int status;
-    String message;
+  Level level;
+  int status;
+  String message;
 }
