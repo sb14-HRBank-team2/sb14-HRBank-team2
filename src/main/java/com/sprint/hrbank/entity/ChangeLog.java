@@ -5,10 +5,12 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ChangeLog {
     @Id
@@ -33,8 +35,6 @@ public class ChangeLog {
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
     Employee employee;
-
-    public ChangeLog() {}
 
     private ChangeLog(
             ChangeType type,

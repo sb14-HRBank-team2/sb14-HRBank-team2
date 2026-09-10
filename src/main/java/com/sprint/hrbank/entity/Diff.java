@@ -3,10 +3,12 @@ package com.sprint.hrbank.entity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Diff {
     @Id
@@ -24,8 +26,6 @@ public class Diff {
     @ManyToOne
     @JoinColumn(name = "change_log_id", nullable = false)
     ChangeLog changeLog;
-
-    public Diff() {}
 
     private Diff(String propertyName, String before, String after, ChangeLog changeLog) {
         this.propertyName = propertyName;
