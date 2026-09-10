@@ -11,64 +11,85 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import java.time.Instant;
 import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Getter
-@Table(name = "employee")
+@Table(
+        name = "employee",
+        uniqueConstraints = {
+            @UniqueConstraint(name = "uk_employee_email", columnNames = "email"),
+            @UniqueConstraint(name = "uk_employee_number", columnNames = "employee_number")
+        })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Integer id;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "department_id", nullable = false)
-    private Department department;
+    Department department;
+
     @Column(name = "profile_image_id")
-    private Long profileImageId;
+    Integer profileImageId;
 
     @Column(nullable = false, length = 50)
-    private String name;
+    String name;
 
     @Column(nullable = false)
-    private String email;
+    String email;
 
-    @Column(
-        name = "employee_number",
-        nullable = false,
-        updatable = false)
-    private String employeeNumber;
+    @Column(name = "employee_number", nullable = false, updatable = false)
+    String employeeNumber;
 
     @Column(nullable = false)
-    private String position;
+    String position;
 
     @Column(name = "hire_date", nullable = false)
-    private LocalDate hireDate;
+    LocalDate hireDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private EmployeeStatus status;
+    EmployeeStatus status;
 
-    private Employee(Department department, Long profileImageId, String name, String email,
-        String employeeNumber, String position, LocalDate hireDate, EmployeeStatus status) {
+    private Employee(
+            Department department,
+            Integer profileImageId,
+            String name,
+            String email,
+            String position,
+            EmployeeStatus status) {
         this.department = department;
         this.profileImageId = profileImageId;
         this.name = name;
         this.email = email;
-        this.employeeNumber = employeeNumber;
+        this.employeeNumber = generateEmployeeNumber();
         this.position = position;
-        this.hireDate = hireDate;
+        this.hireDate = LocalDate.now();
         this.status = status;
     }
 
-    public static Employee create(Department department, Long profileImageId, String name,
-        String email,
-        String employeeNumber, String position, LocalDate hireDate, EmployeeStatus status) {
-        return new Employee(
-            department, profileImageId, name, email, employeeNumber, position, hireDate, status);
+    public static Employee create(
+            Department department,
+            Integer profileImageId,
+            String name,
+            String email,
+            String position,
+            EmployeeStatus status) {
+        return new Employee(department, profileImageId, name, email, position, status);
+    }
+
+    private String generateEmployeeNumber() {
+        Long generate = Instant.now().getEpochSecond();
+        return "EMP-" + generate;
     }
 }
