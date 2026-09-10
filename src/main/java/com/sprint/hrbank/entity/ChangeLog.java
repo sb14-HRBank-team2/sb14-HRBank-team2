@@ -32,10 +32,6 @@ public class ChangeLog {
     @Column(nullable = false)
     LocalDateTime at;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
-    Employee employee;
-
     private ChangeLog(
             ChangeType type,
             String employeeNumber,
@@ -46,16 +42,11 @@ public class ChangeLog {
         this.employeeNumber = employeeNumber;
         this.memo = memo;
         this.ipAddress = ipAddress;
-        this.employee = employee;
         this.at = LocalDateTime.now();
     }
 
     public static ChangeLog create(
-            ChangeType type,
-            String employeeNumber,
-            String memo,
-            String ipAddress,
-            Employee employee) {
-        return new ChangeLog(type, employeeNumber, memo, ipAddress, employee);
+            ChangeType type, String employeeNumber, String memo, String ipAddress) {
+        return new ChangeLog(type, employeeNumber, memo, ipAddres);
     }
 }
