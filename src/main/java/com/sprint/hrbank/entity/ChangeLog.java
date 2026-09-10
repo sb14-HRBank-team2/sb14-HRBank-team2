@@ -15,21 +15,28 @@ public class ChangeLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     ChangeType type;
 
+    @Column(nullable = false)
     String employeeNumber;
+
     String memo;
+
+    @Column(nullable = false)
     String ipAddress;
+
+    @Column(nullable = false)
     LocalDateTime at;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_id", nullable = false)
     Employee employee;
 
     public ChangeLog() {}
 
-    public ChangeLog(
+    private ChangeLog(
             ChangeType type,
             String employeeNumber,
             String memo,
@@ -41,5 +48,14 @@ public class ChangeLog {
         this.ipAddress = ipAddress;
         this.employee = employee;
         this.at = LocalDateTime.now();
+    }
+
+    public static ChangeLog create(
+            ChangeType type,
+            String employeeNumber,
+            String memo,
+            String ipAddress,
+            Employee employee) {
+        return new ChangeLog(type, employeeNumber, memo, ipAddress, employee);
     }
 }
