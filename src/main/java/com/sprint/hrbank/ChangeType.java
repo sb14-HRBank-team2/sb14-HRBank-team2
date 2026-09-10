@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public enum ChangeType {
     CREATE("생성"),
-    UPDATE("수정"),
+    UPDATED("수정"),
     DELETED("삭제");
 
     String description;
