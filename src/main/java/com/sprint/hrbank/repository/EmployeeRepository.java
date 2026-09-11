@@ -2,7 +2,6 @@ package com.sprint.hrbank.repository;
 
 import com.sprint.hrbank.dto.DepartmentDistributionDto;
 import com.sprint.hrbank.dto.MonthlyTrendDto;
-import com.sprint.hrbank.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

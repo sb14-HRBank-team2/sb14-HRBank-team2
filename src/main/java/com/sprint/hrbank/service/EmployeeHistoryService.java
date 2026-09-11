@@ -22,7 +22,7 @@ public class EmployeeHistoryService {
                         history.getId(),
                         history.getEmployeeId(),
                         history.getChangeContent(),
-                        history.getModifiedAt()
+                        history.getModifiedAt() != null ? history.getModifiedAt().toString() : null
                 ))
                 .collect(Collectors.toList());
     }
