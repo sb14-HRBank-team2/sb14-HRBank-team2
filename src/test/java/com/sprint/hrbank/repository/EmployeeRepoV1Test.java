@@ -37,7 +37,7 @@ public class EmployeeRepoV1Test {
   @Test
   void createEmployeeTest() {
     // given
-    Department department = Department.create("개발2팀", "TDD");
+    Department department = Department.create("개발2팀", "TDD", LocalDate.of(2026, 9, 2));
     departmentRepository.save(department);
     Department findDepartment =
         departmentRepository

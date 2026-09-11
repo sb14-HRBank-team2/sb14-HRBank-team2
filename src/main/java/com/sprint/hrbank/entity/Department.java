@@ -35,13 +35,13 @@ public class Department {
   @Column(name = "established_date", nullable = false)
   LocalDate establishedDate;
 
-  private Department(String name, String description) {
+  private Department(String name, String description, LocalDate establishedDate) {
     this.name = name;
     this.description = description;
-    this.establishedDate = LocalDate.now();
+    this.establishedDate = establishedDate;
   }
 
-  public static Department create(String name, String description) {
-    return new Department(name, description);
+  public static Department create(String name, String description, LocalDate establishedDate) {
+    return new Department(name, description, establishedDate);
   }
 }

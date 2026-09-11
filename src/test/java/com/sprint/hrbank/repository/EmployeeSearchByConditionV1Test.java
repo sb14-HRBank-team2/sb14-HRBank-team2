@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestConstructor;
@@ -24,11 +25,17 @@ public class EmployeeSearchByConditionV1Test {
   private final EmployeeRepository employeeRepository;
   private final DepartmentRepository departmentRepository;
 
+  @BeforeEach
+  void before() {
+    employeeRepository.deleteAll();
+    departmentRepository.deleteAll();
+  }
+
   @Test
   @Transactional
   void searchByCondition() {
     // given
-    Department dept = Department.create("테스트9", "복합검색 테스트");
+    Department dept = Department.create("테스트9", "복합검색 테스트", LocalDate.of(2026, 8, 29));
     departmentRepository.save(dept);
     Employee emp =
         Employee.create(dept, null, "테스터", "test@test.com8", "tester", LocalDate.of(2026, 9, 2));
