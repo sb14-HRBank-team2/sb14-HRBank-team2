@@ -13,40 +13,35 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ChangeLog {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Integer id;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    ChangeType type;
+  @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
+  ChangeType type;
 
-    @Column(nullable = false)
-    String employeeNumber;
+  @Column(nullable = false)
+  String employeeNumber;
 
-    String memo;
+  String memo;
 
-    @Column(nullable = false)
-    String ipAddress;
+  @Column(nullable = false)
+  String ipAddress;
 
-    @Column(nullable = false)
-    LocalDateTime at;
+  @Column(nullable = false)
+  LocalDateTime at;
 
-    private ChangeLog(
-            ChangeType type,
-            String employeeNumber,
-            String memo,
-            String ipAddress,
-            Employee employee) {
-        this.type = type;
-        this.employeeNumber = employeeNumber;
-        this.memo = memo;
-        this.ipAddress = ipAddress;
-        this.at = LocalDateTime.now();
-    }
+  private ChangeLog(ChangeType type, String employeeNumber, String memo, String ipAddress) {
+    this.type = type;
+    this.employeeNumber = employeeNumber;
+    this.memo = memo;
+    this.ipAddress = ipAddress;
+    this.at = LocalDateTime.now();
+  }
 
-    public static ChangeLog create(
-            ChangeType type, String employeeNumber, String memo, String ipAddress) {
-        return new ChangeLog(type, employeeNumber, memo, ipAddres);
-    }
+  public static ChangeLog create(
+      ChangeType type, String employeeNumber, String memo, String ipAddress) {
+    return new ChangeLog(type, employeeNumber, memo, ipAddress);
+  }
 }
