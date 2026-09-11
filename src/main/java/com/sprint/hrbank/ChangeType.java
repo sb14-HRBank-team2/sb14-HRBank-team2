@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public enum ChangeType {
-  CREATE("생성"),
+  CREATED("생성"),
   UPDATED("수정"),
   DELETED("삭제");
 
