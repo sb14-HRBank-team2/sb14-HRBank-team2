@@ -1,4 +1,4 @@
-package com.sprint.hrbank.service;
+package com.sprint.hrbank.service.query;
 
 import com.sprint.hrbank.entity.Employee;
 import java.util.List;

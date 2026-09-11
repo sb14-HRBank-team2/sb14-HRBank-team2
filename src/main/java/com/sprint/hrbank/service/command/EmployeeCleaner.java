@@ -1,4 +1,4 @@
-package com.sprint.hrbank.service;
+package com.sprint.hrbank.service.command;
 
 public interface EmployeeCleaner {
 

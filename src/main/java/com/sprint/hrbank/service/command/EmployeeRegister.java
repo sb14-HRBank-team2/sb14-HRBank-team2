@@ -1,4 +1,4 @@
-package com.sprint.hrbank.service;
+package com.sprint.hrbank.service.command;
 
 import com.sprint.hrbank.dto.EmployeeCreateRequest;
 import com.sprint.hrbank.dto.EmployeeDto;
