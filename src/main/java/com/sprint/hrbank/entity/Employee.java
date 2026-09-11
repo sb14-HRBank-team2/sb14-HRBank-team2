@@ -94,4 +94,32 @@ public class Employee {
     Long generate = Instant.now().getEpochSecond();
     return "EMP-" + generate;
   }
+
+  public Employee update(
+      String name,
+      String email,
+      Department department,
+      String position,
+      LocalDate hireDate,
+      EmployeeStatus status) {
+    if (name != null) {
+      this.name = name;
+    }
+    if (email != null) {
+      this.email = email;
+    }
+    if (department != null) {
+      this.department = department;
+    }
+    if (position != null) {
+      this.position = position;
+    }
+    if (hireDate != null) {
+      this.hireDate = hireDate;
+    }
+    if (status != null) {
+      this.status = status;
+    }
+    return this;
+  }
 }
