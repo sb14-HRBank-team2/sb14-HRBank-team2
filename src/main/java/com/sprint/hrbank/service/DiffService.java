@@ -8,6 +8,8 @@ import com.sprint.hrbank.exception.CustomRuntimeException;
 import com.sprint.hrbank.exception.ExceptionType;
 import com.sprint.hrbank.repository.ChangeLogRepository;
 import com.sprint.hrbank.repository.DiffRepository;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +29,16 @@ public class DiffService {
 
     Diff target = dto.toEntity(changeLog);
     return DiffResponseDto.from(diffRepository.save(target));
+  }
+
+  public List<DiffResponseDto> readAll(Integer changeLogId) {
+    List<Diff> retrievedList = diffRepository.findAllByChangeLogId(changeLogId);
+
+    List<DiffResponseDto> result = new ArrayList<>();
+    for (Diff each : retrievedList) {
+      DiffResponseDto dto = DiffResponseDto.from(each);
+      result.add(dto);
+    }
+    return result;
   }
 }
