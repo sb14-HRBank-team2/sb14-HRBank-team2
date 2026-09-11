@@ -17,7 +17,9 @@ public enum ExceptionType {
   USER_NOT_FOUND(Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "User with id %s not found"),
   DEPARTMENT_NOT_FOUND(
       Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "Department with id %s not found"),
-  INVALID_REQUEST(Level.WARN, HttpURLConnection.HTTP_BAD_REQUEST, "Invalid request");
+  INVALID_REQUEST(Level.WARN, HttpURLConnection.HTTP_BAD_REQUEST, "Invalid request"),
+  CHANGE_LOG_NOT_FOUND(
+      Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "ChangeLog with id %s not found");
 
   Level level;
   int status;
