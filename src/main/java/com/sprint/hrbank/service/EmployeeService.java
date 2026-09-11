@@ -1,49 +1,85 @@
 package com.sprint.hrbank.service;
 
-import com.sprint.hrbank.ChangeType;
-import com.sprint.hrbank.domain.ChangeLog;
-import com.sprint.hrbank.domain.Employee;
+import com.sprint.hrbank.dto.EmployeeCreateRequest;
 import com.sprint.hrbank.dto.EmployeeDto;
+import com.sprint.hrbank.dto.EmployeeUpdateRequest;
+import com.sprint.hrbank.entity.Department;
+import com.sprint.hrbank.entity.Employee;
 import com.sprint.hrbank.exception.CustomRuntimeException;
 import com.sprint.hrbank.exception.ExceptionType;
-import com.sprint.hrbank.repository.ChangeLogRepository;
 import com.sprint.hrbank.repository.EmployeeRepository;
+import com.sprint.hrbank.repository.EmployeeSearchCond;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @RequiredArgsConstructor
-public class EmployeeService {
-  private final EmployeeRepository employeeRepository;
-  private final ChangeLogRepository changeLogRepository;
+@Service
+public class EmployeeService
+    implements EmployeeRegister,
+        EmployeeCleaner,
+        EmployeeFinder,
+        EmployeeModifier,
+        EmployeeFinderByDepartment {
 
-  @Transactional(readOnly = true)
-  public EmployeeDto getEmployeeDetail(Integer id) {
+  private final EmployeeRepository employeeRepository;
+  private final DepartmentFinder departmentFinder;
+
+  @Override
+  @Transactional
+  public EmployeeDto register(EmployeeCreateRequest employeeCreateRequest) {
+    Department department = departmentFinder.getById(employeeCreateRequest.departmentId());
     Employee employee =
-        employeeRepository
-            .findById(id)
-            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND, id));
-    return EmployeeDto.from(employee);
+        Employee.create(
+            department,
+            null,
+            employeeCreateRequest.name(),
+            employeeCreateRequest.email(),
+            employeeCreateRequest.position(),
+            employeeCreateRequest.hireDate());
+    employeeRepository.save(employee);
+    return EmployeeDto.toDto(employee);
   }
 
+  @Override
   @Transactional
-  public void deleteEmployee(Integer id, String ipAddress) {
+  public void deleteById(Integer employeeId) {
+    employeeRepository.deleteById(employeeId);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Employee getById(Integer employeeId) {
+    return employeeRepository
+        .findById(employeeId)
+        .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND));
+  }
+
+  @Override
+  @Transactional
+  public EmployeeDto update(Integer employeeId, EmployeeUpdateRequest request) {
     Employee employee =
         employeeRepository
-            .findById(id)
-            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND, id));
+            .findById(employeeId)
+            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND));
+    Department department = departmentFinder.getById(request.departmentId());
+    Employee update =
+        employee.update(
+            request.name(),
+            request.email(),
+            department,
+            request.position(),
+            request.hireDate(),
+            request.status());
+    return EmployeeDto.toDto(update);
+  }
 
-    ChangeLog changeLog =
-        ChangeLog.create(
-            ChangeType.DELETED, employee.getEmployeeNumber(), "관리자에 의한 직원 영구 삭제", ipAddress);
-    changeLogRepository.save(changeLog);
-
-    // 프로필 사진 삭제하기 위한 코드 예시
-    // if (employee.getProfileImageId() != null) {
-    //     fileService.deleteFile(employee.getProfileImageId());
-    // }
-
-    employeeRepository.delete(employee);
+  @Override
+  public List<Employee> getByDepartmentId(Integer id) {
+    String departmentName = departmentFinder.getById(id).getName();
+    EmployeeSearchCond cond = EmployeeSearchCond.builder().departmentName(departmentName).build();
+    List<Employee> employees = employeeRepository.search(cond);
+    return employees;
   }
 }

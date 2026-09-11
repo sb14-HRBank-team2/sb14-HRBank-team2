@@ -1,6 +1,7 @@
 package com.sprint.hrbank.dto;
 
-import com.sprint.hrbank.domain.Employee;
+import com.sprint.hrbank.entity.Employee;
+import com.sprint.hrbank.entity.EmployeeStatus;
 import java.time.LocalDate;
 
 public record EmployeeDto(
@@ -12,9 +13,10 @@ public record EmployeeDto(
     String departmentName,
     String position,
     LocalDate hireDate,
-    String status,
+    EmployeeStatus status,
     Integer profileImageId) {
-  public static EmployeeDto from(Employee employee) {
+
+  public static EmployeeDto toDto(Employee employee) {
     return new EmployeeDto(
         employee.getId(),
         employee.getName(),
@@ -24,7 +26,7 @@ public record EmployeeDto(
         employee.getDepartment().getName(),
         employee.getPosition(),
         employee.getHireDate(),
-        employee.getStatus().name(),
+        employee.getStatus(),
         employee.getProfileImageId());
   }
 }
