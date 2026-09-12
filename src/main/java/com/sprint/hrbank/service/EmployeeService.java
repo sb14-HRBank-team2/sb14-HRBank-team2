@@ -1,5 +1,8 @@
 package com.sprint.hrbank.service;
 
+import com.sprint.hrbank.ChangeType;
+import com.sprint.hrbank.dto.ChangeLogCreateRequestDto;
+import com.sprint.hrbank.dto.DiffCreateRequestDto;
 import com.sprint.hrbank.dto.EmployeeCreateRequest;
 import com.sprint.hrbank.dto.EmployeeDto;
 import com.sprint.hrbank.dto.EmployeeUpdateRequest;
@@ -25,6 +28,7 @@ public class EmployeeService
 
   private final EmployeeRepository employeeRepository;
   private final DepartmentFinder departmentFinder;
+  private final ChangeLogCreator changeLogCreator;
 
   @Override
   @Transactional
@@ -44,8 +48,32 @@ public class EmployeeService
 
   @Override
   @Transactional
-  public void deleteById(Integer employeeId) {
-    employeeRepository.deleteById(employeeId);
+  public void deleteById(Integer employeeId, String ipAddress) {
+    Employee employee =
+        employeeRepository
+            .findById(employeeId)
+            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND));
+
+    List<DiffCreateRequestDto> diffs =
+        List.of(
+            new DiffCreateRequestDto("입사일", employee.getHireDate().toString(), null),
+            new DiffCreateRequestDto("이름", employee.getName(), null),
+            new DiffCreateRequestDto("직함", employee.getPosition(), null),
+            new DiffCreateRequestDto("부서", employee.getDepartment().getName(), null),
+            new DiffCreateRequestDto("이메일", employee.getEmail(), null),
+            new DiffCreateRequestDto("상태", employee.getStatus().getDescription(), null));
+
+    ChangeLogCreateRequestDto logCreateRequestDto =
+        ChangeLogCreateRequestDto.builder()
+            .type(ChangeType.DELETED)
+            .employeeNumber(employee.getEmployeeNumber())
+            .memo("관리자에 의한 직원 영구 삭제")
+            .diffs(diffs)
+            .build();
+
+    changeLogCreator.create(logCreateRequestDto, ipAddress);
+
+    employeeRepository.delete(employee);
   }
 
   @Override
