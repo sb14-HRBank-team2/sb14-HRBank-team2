@@ -21,14 +21,16 @@ public class DiffService {
   private final ChangeLogRepository changeLogRepository;
 
   public DiffResponseDto create(DiffCreateRequestDto dto, Integer changeLogId) {
+    // 아디로 이력 객체로 가져와서 diff에 박아줘야함
     ChangeLog changeLog =
         changeLogRepository
             .findById(changeLogId)
             .orElseThrow(
                 () -> new CustomRuntimeException(ExceptionType.CHANGE_LOG_NOT_FOUND, changeLogId));
 
-    Diff target = dto.toEntity(changeLog);
-    return DiffResponseDto.from(diffRepository.save(target));
+    //    Diff target = dto.toEntity(changeLog);
+    Diff diff = Diff.create(dto.propertyName(), dto.before(), dto.after(), changeLog);
+    return DiffResponseDto.from(diffRepository.save(diff));
   }
 
   public List<DiffResponseDto> readAll(Integer changeLogId) {

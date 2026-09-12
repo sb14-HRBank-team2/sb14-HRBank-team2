@@ -20,13 +20,13 @@ public class ChangeLogService {
 
   @Transactional
   public ChangeLogResponseDto create(ChangeLogCreateRequestDto dto, String ipAddress) {
-    ChangeLog changeLog = dto.toEntity(ipAddress);
+    ChangeLog changeLog = ChangeLog.create(dto.type(), dto.employeeNumber(), dto.memo(), ipAddress);
     ChangeLog result = changeLogRepository.save(changeLog);
 
     // 변경내역 저장로직
-    for (DiffCreateRequestDto target : dto.getDiffs()) {
+    for (DiffCreateRequestDto target : dto.diffs()) {
       diffService.create(target, result.getId()); // db 2번접근
-      //          diffRepository.save(target.toEntity(result)); //db 1번접근
+      // diffRepository.save(target.toEntity(result)); //db 1번접근
     }
     return ChangeLogResponseDto.from(result);
   }
