@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ChangeLogService {
+public class ChangeLogService implements ChangeLogCreator {
 
   private final ChangeLogRepository changeLogRepository;
   private final DiffRepository diffRepository;
