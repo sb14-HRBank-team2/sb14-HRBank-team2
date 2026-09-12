@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface EmployeeRepository extends JpaRepository<Employee, Integer>, EmployeeQRepository {
 
   List<Employee> findByNameContainingOrEmailContaining(String nameKeyword, String emailKeyword);
+
+  Integer countEmployeesByDepartment_Id(Integer departmentId);
 }
