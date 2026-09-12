@@ -87,12 +87,17 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
 
   @Override
   @Transactional
-  public EmployeeDto update(Integer employeeId, EmployeeUpdateRequest request) {
+  public EmployeeDto update(Integer employeeId, EmployeeUpdateRequest request, String ipAddress) {
     Employee employee =
         employeeRepository
             .findById(employeeId)
             .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND));
+    // 이거 근데 부서변경없이 들어오면 어떻게함? 에러터지는데? 그럼 밑에 코드 하나도 실행안됌
     Department department = departmentFinder.getById(request.departmentId());
+
+    List<DiffCreateRequestDto> diffs =
+        EmployeeDiffFinder.createUpdateDiffs(employee, request, department);
+
     Employee update =
         employee.update(
             request.name(),
@@ -101,6 +106,12 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
             request.position(),
             request.hireDate(),
             request.status());
+
+    ChangeLogCreateRequestDto dto =
+        new ChangeLogCreateRequestDto(
+            ChangeType.UPDATED, employee.getEmployeeNumber(), request.memo(), diffs);
+
+    changeLogService.create(dto, ipAddress);
     return EmployeeDto.toDto(update);
   }
 }
