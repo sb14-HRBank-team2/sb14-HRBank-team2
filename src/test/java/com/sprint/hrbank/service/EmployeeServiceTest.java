@@ -2,16 +2,16 @@ package com.sprint.hrbank.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.sprint.hrbank.dto.EmployeeCreateRequest;
-import com.sprint.hrbank.dto.EmployeeDto;
-import com.sprint.hrbank.entity.ChangeLog;
-import com.sprint.hrbank.entity.Department;
-import com.sprint.hrbank.entity.Employee;
-import com.sprint.hrbank.entity.EmployeeStatus;
-import com.sprint.hrbank.repository.ChangeLogRepository;
-import com.sprint.hrbank.repository.DepartmentRepository;
-import com.sprint.hrbank.repository.EmployeeRepository;
-import com.sprint.hrbank.service.query.EmployeeQueryService;
+import com.sprint.hrbank.application.changelog.required.ChangeLogRepository;
+import com.sprint.hrbank.application.department.required.DepartmentRepository;
+import com.sprint.hrbank.application.employee.EmployeeQueryService;
+import com.sprint.hrbank.application.employee.dto.EmployeeCreateRequest;
+import com.sprint.hrbank.application.employee.dto.EmployeeDto;
+import com.sprint.hrbank.application.employee.required.EmployeeRepository;
+import com.sprint.hrbank.domain.chagelog.ChangeLog;
+import com.sprint.hrbank.domain.department.Department;
+import com.sprint.hrbank.domain.employee.Employee;
+import com.sprint.hrbank.domain.employee.EmployeeStatus;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
