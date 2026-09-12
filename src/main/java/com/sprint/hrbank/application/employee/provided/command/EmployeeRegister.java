@@ -5,5 +5,5 @@ import com.sprint.hrbank.application.employee.dto.EmployeeDto;
 
 public interface EmployeeRegister {
 
-  EmployeeDto register(EmployeeCreateRequest employeeCreateRequest);
+  EmployeeDto register(EmployeeCreateRequest employeeCreateRequest, String ipAddress);
 }

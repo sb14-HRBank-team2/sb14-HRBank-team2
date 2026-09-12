@@ -25,6 +25,7 @@ public class Diff {
   @Column(nullable = false)
   String propertyName;
 
+  @Column(nullable = false)
   String before;
 
   @Column(nullable = false)

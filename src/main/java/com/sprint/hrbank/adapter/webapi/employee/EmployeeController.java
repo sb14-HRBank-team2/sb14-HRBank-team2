@@ -31,6 +31,6 @@ public class EmployeeController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteEmployee(@PathVariable Integer id, HttpServletRequest request) {
     String ipAddress = request.getRemoteAddr();
-    employeeCommandService.deleteById(id);
+    employeeCommandService.deleteById(id, ipAddress);
   }
 }
