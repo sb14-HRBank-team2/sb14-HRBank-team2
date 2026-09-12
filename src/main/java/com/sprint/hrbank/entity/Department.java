@@ -12,13 +12,19 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "department")
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; // 부서 ID
 
+    @Column(nullable = false)
     private String name; // 부서명
+
+    @Column(nullable = false)
     private String description; // 부서 설명
+
+    @Column(nullable = false)
     private LocalDateTime establishedDate; // 부서 설립일
 
     @OneToMany(mappedBy = "department")

@@ -28,8 +28,7 @@ public class DepartmentApplication {
 
   // 부서 상세 조회 - READ
   public DepartmentDto getDepartment(Integer id) {
-    Department entity =
-        departmentRepository
+    Department entity = departmentRepository
             .findById(id)
             .orElseThrow(() -> new RuntimeException("해당 부서는 존재하지 않습니다."));
     return DepartmentDto.from(entity);

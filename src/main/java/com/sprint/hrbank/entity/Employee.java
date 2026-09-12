@@ -10,16 +10,27 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "employee")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; // 직원 ID
 
+    @Column(nullable = false)
     private String name; // 직원 이름
+
+    @Column(nullable = false)
     private String email; // 이메일
+
+    @Column(nullable = false)
     private Integer employeeNumber; // 사원 번호
+
     private String position; // 직함
+
+    @Column(nullable = false)
     private LocalDateTime hireDate; // 입사일
+
+    @Column(nullable = false)
     private String status; // 상태
 
     @ManyToOne(fetch = FetchType.LAZY)
