@@ -1,6 +1,5 @@
 package com.sprint.hrbank.application.employee;
 
-import com.sprint.hrbank.application.changelog.ChangeLogService;
 import com.sprint.hrbank.application.department.provided.DepartmentFinder;
 import com.sprint.hrbank.application.employee.dto.EmployeeCreateRequest;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
@@ -23,7 +22,6 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
 
   private final DepartmentFinder departmentFinder;
   private final EmployeeRepository employeeRepository;
-  private final ChangeLogService changeLogService;
 
   @Override
   @Transactional
