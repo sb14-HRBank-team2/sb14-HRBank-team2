@@ -32,9 +32,7 @@ public class EmployeeController {
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public CursorPageResponseEmployeeDto getEmployeePage(
-      @ModelAttribute EmployeeSearchCond cond
-  ) {
+  public CursorPageResponseEmployeeDto getEmployeePage(@ModelAttribute EmployeeSearchCond cond) {
     return employeeService.getEmployeePage(cond);
   }
 
@@ -42,6 +40,6 @@ public class EmployeeController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteEmployee(@PathVariable Integer id, HttpServletRequest request) {
     String ipAddress = request.getRemoteAddr();
-    employeeCommandService.deleteById(id);
+    employeeCommandService.deleteById(id, ipAddress);
   }
 }

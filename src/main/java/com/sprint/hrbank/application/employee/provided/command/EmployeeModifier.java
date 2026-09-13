@@ -5,5 +5,5 @@ import com.sprint.hrbank.application.employee.dto.EmployeeUpdateRequest;
 
 public interface EmployeeModifier {
 
-  EmployeeDto update(Integer employeeId, EmployeeUpdateRequest request);
+  EmployeeDto update(Integer employeeId, EmployeeUpdateRequest request, String ipAddress);
 }
