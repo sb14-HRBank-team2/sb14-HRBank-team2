@@ -1,6 +1,6 @@
 package com.sprint.hrbank.application.employee;
 
-import com.sprint.hrbank.application.changelog.ChangeLogService;
+import com.sprint.hrbank.application.changelog.ChangeLogCommandService;
 import com.sprint.hrbank.application.changelog.dto.ChangeLogCreateRequestDto;
 import com.sprint.hrbank.application.changelog.dto.DiffCreateRequestDto;
 import com.sprint.hrbank.application.department.provided.DepartmentFinder;
@@ -27,7 +27,7 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
 
   private final DepartmentFinder departmentFinder;
   private final EmployeeRepository employeeRepository;
-  private final ChangeLogService changeLogService;
+  private final ChangeLogCommandService changeLogCommandService;
 
   @Override
   @Transactional
@@ -55,7 +55,7 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
     ChangeLogCreateRequestDto dto =
         new ChangeLogCreateRequestDto(
             ChangeType.CREATED, employee.getEmployeeNumber(), employeeCreateRequest.memo(), diffs);
-    changeLogService.create(dto, ipAddress);
+    changeLogCommandService.create(dto, ipAddress);
 
     return EmployeeDto.from(employee);
   }
@@ -80,7 +80,7 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
     ChangeLogCreateRequestDto dto =
         new ChangeLogCreateRequestDto(
             ChangeType.DELETED, target.getEmployeeNumber(), "직원 삭제", diffs);
-    changeLogService.create(dto, ipAddress);
+    changeLogCommandService.create(dto, ipAddress);
 
     employeeRepository.deleteById(employeeId);
   }
@@ -114,7 +114,7 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
         new ChangeLogCreateRequestDto(
             ChangeType.UPDATED, employee.getEmployeeNumber(), request.memo(), diffs);
 
-    changeLogService.create(dto, ipAddress);
+    changeLogCommandService.create(dto, ipAddress);
     return EmployeeDto.from(update);
   }
 }

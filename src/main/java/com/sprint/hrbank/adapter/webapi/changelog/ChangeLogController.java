@@ -1,7 +1,7 @@
 package com.sprint.hrbank.adapter.webapi.changelog;
 
 import com.sprint.hrbank.adapter.persistence.changelog.ChangeLogSearchCond;
-import com.sprint.hrbank.application.changelog.ChangeLogService;
+import com.sprint.hrbank.application.changelog.ChangeLogQueryService;
 import com.sprint.hrbank.application.changelog.dto.ChangeLogResponseDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ChangeLogController {
 
-  private final ChangeLogService changeLogService;
+  private final ChangeLogQueryService changeLogQueryService;
 
   @GetMapping
   public List<ChangeLogResponseDto> getChangeLogs(@ModelAttribute ChangeLogSearchCond cond) {
-    return changeLogService.getChangeLog(cond);
+    return changeLogQueryService.getChangeLog(cond);
   }
 }
