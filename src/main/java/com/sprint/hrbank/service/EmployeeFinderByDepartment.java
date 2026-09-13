@@ -6,4 +6,6 @@ import java.util.List;
 public interface EmployeeFinderByDepartment {
 
   List<Employee> getByDepartmentId(Integer id);
+
+  Integer countByDepartmentId(Integer id);
 }

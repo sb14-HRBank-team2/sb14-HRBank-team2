@@ -44,4 +44,18 @@ public class Department {
   public static Department create(String name, String description, LocalDate establishedDate) {
     return new Department(name, description, establishedDate);
   }
+
+  // Department.java 내부
+  public Department update(String name, String description, LocalDate establishedDate) {
+    if (name != null) {
+      this.name = name;
+    }
+    if (description != null) {
+      this.description = description;
+    }
+    if (establishedDate != null) {
+      this.establishedDate = establishedDate;
+    }
+    return this;
+  }
 }

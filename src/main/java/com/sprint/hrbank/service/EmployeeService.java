@@ -104,10 +104,17 @@ public class EmployeeService
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<Employee> getByDepartmentId(Integer id) {
     String departmentName = departmentFinder.getById(id).getName();
     EmployeeSearchCond cond = EmployeeSearchCond.builder().departmentName(departmentName).build();
     List<Employee> employees = employeeRepository.search(cond);
     return employees;
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Integer countByDepartmentId(Integer id) {
+    return employeeRepository.countByDepartmentId(id);
   }
 }
