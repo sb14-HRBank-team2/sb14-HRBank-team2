@@ -12,4 +12,22 @@ public record EmployeeSearchCond(
     String position,
     LocalDate hireDateFrom,
     LocalDate hireDateTo,
-    EmployeeStatus status) {}
+    EmployeeStatus status,
+    Integer idAfter,
+    String cursor,
+    Integer size,
+    String sortField,
+    String sortDirection) {
+
+  public EmployeeSearchCond {
+    if (size == null) {
+      size = 10;
+    }
+    if (sortField == null) {
+      sortField = "name";
+    }
+    if (sortDirection == null) {
+      sortDirection = "asc";
+    }
+  }
+}

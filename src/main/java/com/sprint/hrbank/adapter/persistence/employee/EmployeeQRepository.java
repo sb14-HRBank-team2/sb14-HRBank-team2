@@ -6,4 +6,6 @@ import java.util.List;
 public interface EmployeeQRepository {
 
   List<Employee> search(EmployeeSearchCond employeeSearchCond);
+
+  Long countByCondition(EmployeeSearchCond cond);
 }
