@@ -11,4 +11,22 @@ public record ChangeLogSearchCond(
     String memo,
     String ipAddress,
     LocalDateTime atFrom,
-    LocalDateTime atTo) {}
+    LocalDateTime atTo,
+    Long idAfter,
+    String cursor,
+    Integer size,
+    String sortField,
+    String sortDirection) {
+
+  public ChangeLogSearchCond {
+    if (size == null) {
+      size = 10;
+    }
+    if (sortField == null) {
+      sortField = "at";
+    }
+    if (sortDirection == null) {
+      sortDirection = "desc";
+    }
+  }
+}

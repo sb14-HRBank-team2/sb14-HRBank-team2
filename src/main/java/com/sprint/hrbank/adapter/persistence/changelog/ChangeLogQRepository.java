@@ -6,4 +6,6 @@ import java.util.List;
 public interface ChangeLogQRepository {
 
   List<ChangeLog> search(ChangeLogSearchCond cond);
+
+  Long countByCondition(ChangeLogSearchCond cond);
 }
