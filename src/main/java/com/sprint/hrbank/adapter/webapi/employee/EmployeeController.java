@@ -26,21 +26,19 @@ public class EmployeeController {
 
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public EmployeeDto getEmployeeDetail(@PathVariable Integer id) {
+  public EmployeeDto getEmployeeDetail(@PathVariable Long id) {
     return employeeService.getById(id);
   }
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public CursorPageResponseEmployeeDto getEmployeePage(
-      @ModelAttribute EmployeeSearchCond cond
-  ) {
+  public CursorPageResponseEmployeeDto getEmployeePage(@ModelAttribute EmployeeSearchCond cond) {
     return employeeService.getEmployeePage(cond);
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void deleteEmployee(@PathVariable Integer id, HttpServletRequest request) {
+  public void deleteEmployee(@PathVariable Long id, HttpServletRequest request) {
     String ipAddress = request.getRemoteAddr();
     employeeCommandService.deleteById(id);
   }

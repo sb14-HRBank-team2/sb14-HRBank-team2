@@ -34,7 +34,7 @@ public class DepartmentService implements DepartmentFinder {
   //  }
 
   @Override
-  public Department getById(Integer departmentId) {
+  public Department getById(Long departmentId) {
     Department department =
         departmentRepository
             .findById(departmentId)

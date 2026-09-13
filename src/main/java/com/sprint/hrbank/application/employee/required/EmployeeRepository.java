@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, Integer>, EmployeeQRepository {
+public interface EmployeeRepository extends JpaRepository<Employee, Long>, EmployeeQRepository {
 
   List<Employee> findByNameContainingOrEmailContaining(String nameKeyword, String emailKeyword);
 
-  Integer countEmployeesByDepartment_Id(Integer departmentId);
+  Integer countEmployeesByDepartment_Id(Long departmentId);
 }

@@ -36,23 +36,27 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
             employeeCreateRequest.position(),
             employeeCreateRequest.hireDate());
     employeeRepository.save(employee);
-    return EmployeeDto.toDto(employee);
+    return EmployeeDto.from(employee);
   }
 
   @Override
   @Transactional
-  public void deleteById(Integer employeeId) {
+  public void deleteById(Long employeeId) {
     employeeRepository.deleteById(employeeId);
   }
 
   @Override
   @Transactional
-  public EmployeeDto update(Integer employeeId, EmployeeUpdateRequest request) {
+  public EmployeeDto update(Long employeeId, EmployeeUpdateRequest request) {
     Employee employee =
         employeeRepository
             .findById(employeeId)
             .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND));
-    Department department = departmentFinder.getById(request.departmentId());
+    Department department = employee.getDepartment();
+    if (request.departmentId() != null) {
+      department = departmentFinder.getById(request.departmentId());
+    }
+
     Employee update =
         employee.update(
             request.name(),
@@ -61,6 +65,6 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
             request.position(),
             request.hireDate(),
             request.status());
-    return EmployeeDto.toDto(update);
+    return EmployeeDto.from(update);
   }
 }

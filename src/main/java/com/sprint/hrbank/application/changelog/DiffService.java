@@ -18,7 +18,7 @@ public class DiffService {
   private final DiffRepository diffRepository;
   private final ChangeLogRepository changeLogRepository;
 
-  public DiffResponseDto create(DiffCreateRequestDto dto, Integer changeLogId) {
+  public DiffResponseDto create(DiffCreateRequestDto dto, Long changeLogId) {
     ChangeLog changeLog =
         changeLogRepository
             .findById(changeLogId)

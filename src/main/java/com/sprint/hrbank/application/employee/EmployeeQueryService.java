@@ -5,7 +5,6 @@ import com.sprint.hrbank.application.department.provided.DepartmentFinder;
 import com.sprint.hrbank.application.employee.dto.CursorPageResponseEmployeeDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeFinder;
-import com.sprint.hrbank.application.employee.provided.query.EmployeeFinderByDepartment;
 import com.sprint.hrbank.application.employee.provided.query.EmployeePageMaker;
 import com.sprint.hrbank.application.employee.required.EmployeeRepository;
 import com.sprint.hrbank.common.exception.CustomRuntimeException;
@@ -18,28 +17,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class EmployeeQueryService
-    implements EmployeeFinder, EmployeeFinderByDepartment, EmployeePageMaker {
+public class EmployeeQueryService implements EmployeeFinder, EmployeePageMaker {
 
   private final EmployeeRepository employeeRepository;
   private final DepartmentFinder departmentFinder;
 
   @Override
   @Transactional(readOnly = true)
-  public EmployeeDto getById(Integer employeeId) {
+  public EmployeeDto getById(Long employeeId) {
     Employee employee =
         employeeRepository
             .findById(employeeId)
             .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND));
-    return EmployeeDto.toDto(employee);
-  }
-
-  @Override
-  public List<Employee> getByDepartmentId(Integer id) {
-    String departmentName = departmentFinder.getById(id).getName();
-    EmployeeSearchCond cond = EmployeeSearchCond.builder().departmentName(departmentName).build();
-    List<Employee> employees = employeeRepository.search(cond);
-    return employees;
+    return EmployeeDto.from(employee);
   }
 
   @Transactional(readOnly = true)
@@ -55,7 +45,7 @@ public class EmployeeQueryService
     } else {
       paged = searched;
     }
-    List<EmployeeDto> pagedDto = paged.stream().map(EmployeeDto::toDto).toList();
+    List<EmployeeDto> pagedDto = paged.stream().map(EmployeeDto::from).toList();
     String nextCursor = null;
     Long nextIdAfter = null;
     Long totalElements = employeeRepository.countByCondition(cond);
@@ -63,7 +53,7 @@ public class EmployeeQueryService
       Employee employee = paged.get(paged.size() - 1);
       String sortField = cond.sortField();
       nextCursor = getCursor(employee, sortField);
-      nextIdAfter = Long.valueOf(employee.getId());
+      nextIdAfter = employee.getId();
     }
     return CursorPageResponseEmployeeDto.builder()
         .content(pagedDto)
@@ -75,6 +65,7 @@ public class EmployeeQueryService
         .build();
   }
 
+  //  sortField 타입 확인 후 타입에 맞는 값 반환
   private String getCursor(Employee employee, String sortField) {
     if ("name".equals(sortField)) {
       return employee.getName();

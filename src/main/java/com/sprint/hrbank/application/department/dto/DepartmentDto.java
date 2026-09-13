@@ -6,8 +6,4 @@ import lombok.Builder;
 
 @Builder(access = AccessLevel.PRIVATE)
 public record DepartmentDto(
-    Integer id,
-    String name,
-    String description,
-    LocalDate establishedDate,
-    Integer employeeCount) {}
+    Long id, String name, String description, LocalDate establishedDate, Long employeeCount) {}

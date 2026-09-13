@@ -13,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ChangeLogResponseDto {
 
-  Integer id;
+  Long id;
   ChangeType type;
   String employeeNumber;
   String memo;

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public record EmployeeCreateRequest(
     String name,
     String email,
-    Integer departmentId,
+    Long departmentId,
     String position,
     LocalDate hireDate,
     String memo) {}

@@ -13,7 +13,7 @@ public record EmployeeSearchCond(
     LocalDate hireDateFrom,
     LocalDate hireDateTo,
     EmployeeStatus status,
-    Integer idAfter,
+    Long idAfter,
     String cursor,
     Integer size,
     String sortField,
