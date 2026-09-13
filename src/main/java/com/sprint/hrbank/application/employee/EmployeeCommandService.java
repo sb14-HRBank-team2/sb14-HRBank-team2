@@ -92,8 +92,11 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
         employeeRepository
             .findById(employeeId)
             .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND));
-    // 이거 근데 부서변경없이 들어오면 어떻게함? 에러터지는데? 그럼 밑에 코드 하나도 실행안됌
-    Department department = departmentFinder.getById(request.departmentId());
+
+    Department department = employee.getDepartment();
+    if (request.departmentId() != null) {
+      department = departmentFinder.getById(request.departmentId());
+    }
 
     List<DiffCreateRequestDto> diffs =
         EmployeeDiffFinder.createUpdateDiffs(employee, request, department);
