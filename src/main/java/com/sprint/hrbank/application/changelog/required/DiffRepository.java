@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DiffRepository extends JpaRepository<Diff, Integer> {
+public interface DiffRepository extends JpaRepository<Diff, Long> {
 
-  List<Diff> findAllByChangeLogId(Integer changeLogId);
+  List<Diff> findAllByChangeLogId(Long changeLogId);
 }

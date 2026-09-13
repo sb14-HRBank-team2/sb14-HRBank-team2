@@ -20,7 +20,7 @@ public class DiffService {
   private final DiffRepository diffRepository;
   private final ChangeLogRepository changeLogRepository;
 
-  public DiffResponseDto create(DiffCreateRequestDto dto, Integer changeLogId) {
+  public DiffResponseDto create(DiffCreateRequestDto dto, Long changeLogId) {
     // 아디로 이력 객체로 가져와서 diff에 박아줘야함
     ChangeLog changeLog =
         changeLogRepository
@@ -33,7 +33,7 @@ public class DiffService {
     return DiffResponseDto.from(diffRepository.save(diff));
   }
 
-  public List<DiffResponseDto> readAll(Integer changeLogId) {
+  public List<DiffResponseDto> readAll(Long changeLogId) {
     List<Diff> retrievedList = diffRepository.findAllByChangeLogId(changeLogId);
 
     List<DiffResponseDto> result = new ArrayList<>();

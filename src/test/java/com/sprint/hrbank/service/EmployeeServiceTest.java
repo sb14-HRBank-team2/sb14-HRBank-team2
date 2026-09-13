@@ -43,7 +43,7 @@ public class EmployeeServiceTest {
 
     // 부서에 소속 직원 생성
     Employee employee =
-        Employee.create(department, 1, "신상엽", "sangyeop@test.com", "백엔드 개발자", LocalDate.now());
+        Employee.create(department, null, "신상엽", "sangyeop@test.com", "백엔드 개발자", LocalDate.now());
 
     // 저장한 소속 직원 id 얻기
     EmployeeCreateRequest request =
@@ -55,10 +55,10 @@ public class EmployeeServiceTest {
             employee.getHireDate(),
             null);
     Employee savedEmployee = employeeRepository.save(employee);
-    Integer id = savedEmployee.getId();
+    Long id = savedEmployee.getId();
 
     // When (실행)
-    EmployeeDto employeeDetailDto = EmployeeDto.toDto(savedEmployee);
+    EmployeeDto employeeDetailDto = EmployeeDto.from(savedEmployee);
 
     // Then (검증)
     assertThat(employeeDetailDto.name()).isEqualTo("신상엽");
@@ -77,11 +77,11 @@ public class EmployeeServiceTest {
 
     // 부서에 소속 직원 생성
     Employee employee =
-        Employee.create(department, 1, "신상엽", "sangyeop@test.com", "백엔드 개발자", LocalDate.now());
+        Employee.create(department, null, "신상엽", "sangyeop@test.com", "백엔드 개발자", LocalDate.now());
     employeeRepository.save(employee);
 
     // 저장한 소속 직원 id, 사원 번호 얻기
-    Integer employeeId = employee.getId();
+    Long employeeId = employee.getId();
     String employeeNumber = employee.getEmployeeNumber();
 
     // 가짜 ip 주소 생성

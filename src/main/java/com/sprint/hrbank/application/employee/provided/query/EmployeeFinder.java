@@ -4,5 +4,5 @@ import com.sprint.hrbank.application.employee.dto.EmployeeDto;
 
 public interface EmployeeFinder {
 
-  EmployeeDto getById(Integer employeeId);
+  EmployeeDto getById(Long employeeId);
 }

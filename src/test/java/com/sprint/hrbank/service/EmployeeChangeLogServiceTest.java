@@ -46,7 +46,7 @@ public class EmployeeChangeLogServiceTest {
 
     // 부서에 소속 직원 생성
     Employee employee =
-        Employee.create(department, 1, "신상엽", "sangyeop@test.com", "백엔드 개발자", LocalDate.now());
+        Employee.create(department, 1L, "신상엽", "sangyeop@test.com", "백엔드 개발자", LocalDate.now());
 
     // 직원 생성 요청
     EmployeeCreateRequest request =
@@ -89,11 +89,11 @@ public class EmployeeChangeLogServiceTest {
 
     // 부서에 소속 직원 생성
     Employee employee =
-        Employee.create(department, 1, "신상엽", "sangyeop@test.com", "백엔드 개발자", LocalDate.now());
+        Employee.create(department, 1L, "신상엽", "sangyeop@test.com", "백엔드 개발자", LocalDate.now());
     employeeRepository.save(employee);
 
     // 저장한 소속 직원 id, 사원 번호 얻기
-    Integer employeeId = employee.getId();
+    Long employeeId = employee.getId();
     String employeeNumber = employee.getEmployeeNumber();
 
     // 직원 수정 요청
@@ -141,11 +141,11 @@ public class EmployeeChangeLogServiceTest {
 
     // 부서에 소속 직원 생성
     Employee employee =
-        Employee.create(department, 1, "신상엽", "sangyeop@test.com", "백엔드 개발자", LocalDate.now());
+        Employee.create(department, 1L, "신상엽", "sangyeop@test.com", "백엔드 개발자", LocalDate.now());
     employeeRepository.save(employee);
 
     // 저장한 소속 직원 id, 사원 번호 얻기
-    Integer employeeId = employee.getId();
+    Long employeeId = employee.getId();
     String employeeNumber = employee.getEmployeeNumber();
 
     // 가짜 ip 주소 생성

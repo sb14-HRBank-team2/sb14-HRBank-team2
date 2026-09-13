@@ -20,7 +20,7 @@ public class Diff {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  Integer id;
+  Long id;
 
   @Column(nullable = false)
   String propertyName;

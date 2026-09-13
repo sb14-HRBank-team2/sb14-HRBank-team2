@@ -7,4 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DepartmentRepository
-    extends JpaRepository<Department, Integer>, DepartmentQRepository {}
+    extends JpaRepository<Department, Long>, DepartmentQRepository {}

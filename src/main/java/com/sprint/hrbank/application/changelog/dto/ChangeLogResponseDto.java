@@ -5,7 +5,7 @@ import com.sprint.hrbank.domain.chagelog.ChangeType;
 import java.time.LocalDateTime;
 
 public record ChangeLogResponseDto(
-    Integer id,
+    Long id,
     ChangeType type,
     String employeeNumber,
     String memo,

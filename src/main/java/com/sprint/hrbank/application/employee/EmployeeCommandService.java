@@ -57,12 +57,12 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
             ChangeType.CREATED, employee.getEmployeeNumber(), employeeCreateRequest.memo(), diffs);
     changeLogService.create(dto, ipAddress);
 
-    return EmployeeDto.toDto(employee);
+    return EmployeeDto.from(employee);
   }
 
   @Override
   @Transactional
-  public void deleteById(Integer employeeId, String ipAddress) {
+  public void deleteById(Long employeeId, String ipAddress) {
     Employee target =
         employeeRepository
             .findById(employeeId)
@@ -87,7 +87,7 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
 
   @Override
   @Transactional
-  public EmployeeDto update(Integer employeeId, EmployeeUpdateRequest request, String ipAddress) {
+  public EmployeeDto update(Long employeeId, EmployeeUpdateRequest request, String ipAddress) {
     Employee employee =
         employeeRepository
             .findById(employeeId)
@@ -115,6 +115,6 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
             ChangeType.UPDATED, employee.getEmployeeNumber(), request.memo(), diffs);
 
     changeLogService.create(dto, ipAddress);
-    return EmployeeDto.toDto(update);
+    return EmployeeDto.from(update);
   }
 }
