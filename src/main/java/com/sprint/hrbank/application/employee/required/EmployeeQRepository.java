@@ -1,5 +1,6 @@
-package com.sprint.hrbank.adapter.persistence.employee;
+package com.sprint.hrbank.application.employee.required;
 
+import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
 import com.sprint.hrbank.domain.employee.Employee;
 import java.util.List;
 

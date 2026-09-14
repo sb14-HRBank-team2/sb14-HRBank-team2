@@ -1,10 +1,11 @@
 package com.sprint.hrbank.adapter.webapi.employee;
 
-import com.sprint.hrbank.adapter.persistence.employee.EmployeeSearchCond;
-import com.sprint.hrbank.application.employee.EmployeeCommandService;
-import com.sprint.hrbank.application.employee.EmployeeQueryService;
 import com.sprint.hrbank.application.employee.dto.CursorPageResponseEmployeeDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
+import com.sprint.hrbank.application.employee.provided.command.EmployeeCleaner;
+import com.sprint.hrbank.application.employee.provided.query.EmployeeFinder;
+import com.sprint.hrbank.application.employee.provided.query.EmployeePageMaker;
+import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,25 +22,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class EmployeeController {
 
-  private final EmployeeQueryService employeeService;
-  private final EmployeeCommandService employeeCommandService;
+  private final EmployeeFinder employeeFinder;
+  private final EmployeePageMaker pageMaker;
+  private final EmployeeCleaner employeeCleaner;
 
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public EmployeeDto getEmployeeDetail(@PathVariable Long id) {
-    return employeeService.getById(id);
+    return employeeFinder.getById(id);
   }
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public CursorPageResponseEmployeeDto getEmployeePage(@ModelAttribute EmployeeSearchCond cond) {
-    return employeeService.getEmployeePage(cond);
+    return pageMaker.getEmployeePage(cond);
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteEmployee(@PathVariable Long id, HttpServletRequest request) {
     String ipAddress = request.getRemoteAddr();
-    employeeCommandService.deleteById(id, ipAddress);
+    employeeCleaner.deleteById(id, ipAddress);
   }
 }

@@ -4,5 +4,5 @@ import com.sprint.hrbank.application.department.dto.DepartmentDto;
 
 public interface DepartmentDtoFinder {
 
-  DepartmentDto getByDepartmentId(Integer departmentId);
+  DepartmentDto getByDepartmentId(Long departmentId);
 }

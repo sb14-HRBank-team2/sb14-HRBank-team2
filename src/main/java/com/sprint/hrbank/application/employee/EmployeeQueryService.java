@@ -1,11 +1,13 @@
 package com.sprint.hrbank.application.employee;
 
-import com.sprint.hrbank.adapter.persistence.employee.EmployeeSearchCond;
+import static com.sprint.hrbank.application.employee.validation.EmployeeSearchCondValidator.validateEmployeeSearchCond;
+
 import com.sprint.hrbank.application.department.provided.DepartmentFinder;
 import com.sprint.hrbank.application.employee.dto.CursorPageResponseEmployeeDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeFinder;
 import com.sprint.hrbank.application.employee.provided.query.EmployeePageMaker;
+import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
 import com.sprint.hrbank.application.employee.required.EmployeeRepository;
 import com.sprint.hrbank.common.exception.CustomRuntimeException;
 import com.sprint.hrbank.common.exception.ExceptionType;
@@ -28,13 +30,14 @@ public class EmployeeQueryService implements EmployeeFinder, EmployeePageMaker {
     Employee employee =
         employeeRepository
             .findById(employeeId)
-            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND));
+            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.EMPLOYEE_NOT_FOUND));
     return EmployeeDto.from(employee);
   }
 
   @Transactional(readOnly = true)
   @Override
   public CursorPageResponseEmployeeDto getEmployeePage(EmployeeSearchCond cond) {
+    validateEmployeeSearchCond(cond);
     List<Employee> searched = employeeRepository.search(cond);
     Integer size = cond.size();
     Integer adjustSize = searched.size();
