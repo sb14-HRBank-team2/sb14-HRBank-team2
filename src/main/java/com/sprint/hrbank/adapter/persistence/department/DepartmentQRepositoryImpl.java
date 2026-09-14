@@ -1,6 +1,6 @@
 package com.sprint.hrbank.adapter.persistence.department;
 
-import static com.sprint.hrbank.entity.QDepartment.department;
+import static com.sprint.hrbank.domain.department.QDepartment.department;
 import static org.springframework.util.StringUtils.hasText;
 
 import com.querydsl.core.BooleanBuilder;

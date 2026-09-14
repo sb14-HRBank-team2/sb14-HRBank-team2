@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DepartmentRepository
-    extends JpaRepository<Department, Integer>, DepartmentQRepository {
+    extends JpaRepository<Department, Long>, DepartmentQRepository {
 
   boolean existsByName(String name);
 
-  boolean existsByNameAndIdNot(String name, Integer id);
+  boolean existsByNameAndIdNot(String name, Long id);
 }

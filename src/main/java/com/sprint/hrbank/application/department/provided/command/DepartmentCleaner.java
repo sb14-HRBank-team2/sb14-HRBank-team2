@@ -1,5 +1,5 @@
 package com.sprint.hrbank.application.department.provided.command;
 
 public interface DepartmentCleaner {
-  void delete(Integer departmentId);
+  void delete(Long departmentId);
 }

@@ -12,7 +12,7 @@ import com.sprint.hrbank.application.department.provided.query.DepartmentDtoFind
 import com.sprint.hrbank.application.department.provided.query.DepartmentFinder;
 import com.sprint.hrbank.application.department.provided.query.DepartmentPageMaker;
 import com.sprint.hrbank.application.department.required.DepartmentRepository;
-import com.sprint.hrbank.application.employee.provided.query.EmployeeFinderByDepartment;
+import com.sprint.hrbank.application.employee.provided.query.EmployeeCounter;
 import com.sprint.hrbank.common.exception.CustomRuntimeException;
 import com.sprint.hrbank.common.exception.ExceptionType;
 import com.sprint.hrbank.domain.department.Department;
@@ -32,23 +32,11 @@ public class DepartmentService
         DepartmentPageMaker {
 
   private final DepartmentRepository departmentRepository;
-  private final EmployeeFinderByDepartment finder;
+  private final EmployeeCounter finder;
 
   @Override
   @Transactional(readOnly = true)
-  public DepartmentDto getByDepartmentId(Integer departmentId) {
-    Department department =
-        departmentRepository
-            .findById(departmentId)
-            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.DEPARTMENT_NOT_FOUND));
-    Integer employeeCount = finder.countByDepartmentId(departmentId);
-
-    return DepartmentDto.from(department, employeeCount);
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public Department getById(Integer departmentId) {
+  public Department getById(Long departmentId) {
     return departmentRepository
         .findById(departmentId)
         .orElseThrow(() -> new CustomRuntimeException(ExceptionType.DEPARTMENT_NOT_FOUND));
@@ -58,45 +46,45 @@ public class DepartmentService
   @Transactional
   public DepartmentDto create(DepartmentCreateRequest request) {
     if (departmentRepository.existsByName(request.name())) {
-      throw new CustomRuntimeException(ExceptionType.INVALID_REQUEST, "이미 존재하는 부서 이름입니다.");
+      throw new CustomRuntimeException(ExceptionType.INVALID_REQUEST);
     }
     Department department =
         Department.create(request.name(), request.description(), request.establishedDate());
 
     departmentRepository.save(department);
 
-    return DepartmentDto.from(department, 0);
+    return DepartmentDto.from(department, 0L);
   }
 
   @Override
   @Transactional
-  public DepartmentDto update(Integer departmentId, DepartmentUpdateRequest request) {
+  public DepartmentDto update(Long departmentId, DepartmentUpdateRequest request) {
     Department department =
         departmentRepository
             .findById(departmentId)
             .orElseThrow(() -> new CustomRuntimeException(ExceptionType.DEPARTMENT_NOT_FOUND));
 
     if (departmentRepository.existsByNameAndIdNot(request.name(), departmentId)) {
-      throw new CustomRuntimeException(ExceptionType.INVALID_REQUEST, "이미 존재하는 부서 이름입니다.");
+      throw new CustomRuntimeException(ExceptionType.INVALID_REQUEST);
     }
 
     department.update(request.name(), request.description(), request.establishedDate());
-    Integer employeeCount = finder.countByDepartmentId(departmentId);
+    Long employeeCount = finder.countEmployeesByDepartment_Id(departmentId);
 
     return DepartmentDto.from(department, employeeCount);
   }
 
   @Override
   @Transactional
-  public void delete(Integer departmentId) {
+  public void delete(Long departmentId) {
     Department department =
         departmentRepository
             .findById(departmentId)
             .orElseThrow(() -> new CustomRuntimeException(ExceptionType.DEPARTMENT_NOT_FOUND));
 
-    Integer employeeCount = finder.countByDepartmentId(departmentId);
+    Long employeeCount = finder.countEmployeesByDepartment_Id(departmentId);
     if (employeeCount > 0) {
-      throw new CustomRuntimeException(ExceptionType.INVALID_REQUEST, "소속된 직원이 있어 부서를 삭제할 수 없습니다.");
+      throw new CustomRuntimeException(ExceptionType.INVALID_REQUEST);
     }
     departmentRepository.delete(department);
   }
@@ -118,7 +106,9 @@ public class DepartmentService
 
     List<DepartmentDto> pagedDto =
         paged.stream()
-            .map(dept -> DepartmentDto.from(dept, finder.countByDepartmentId(dept.getId())))
+            .map(
+                dept ->
+                    DepartmentDto.from(dept, finder.countEmployeesByDepartment_Id(dept.getId())))
             .toList();
 
     String nextCursor = null;
@@ -149,5 +139,10 @@ public class DepartmentService
       return String.valueOf(department.getEstablishedDate());
     }
     throw new CustomRuntimeException(ExceptionType.INVALID_REQUEST);
+  }
+
+  @Override
+  public DepartmentDto getByDepartmentId(Long departmentId) {
+    return null;
   }
 }

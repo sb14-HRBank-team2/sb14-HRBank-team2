@@ -9,7 +9,7 @@ import lombok.Builder;
 public record DepartmentDto(
     Long id, String name, String description, LocalDate establishedDate, Long employeeCount) {
 
-  public static DepartmentDto of(Department department, Long employeeCount) {
+  public static DepartmentDto from(Department department, Long employeeCount) {
     return DepartmentDto.builder()
         .id(department.getId())
         .name(department.getName())

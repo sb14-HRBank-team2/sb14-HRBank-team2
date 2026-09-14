@@ -4,5 +4,5 @@ import com.sprint.hrbank.domain.department.Department;
 
 public interface DepartmentFinder {
 
-  Department getById(Integer departmentId);
+  Department getById(Long departmentId);
 }
