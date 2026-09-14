@@ -2,7 +2,6 @@ package com.sprint.hrbank.application.employee;
 
 import static com.sprint.hrbank.application.employee.validation.EmployeeSearchCondValidator.validateEmployeeSearchCond;
 
-import com.sprint.hrbank.application.department.provided.DepartmentFinder;
 import com.sprint.hrbank.application.employee.dto.CursorPageResponseEmployeeDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeCounter;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmployeeQueryService implements EmployeeFinder, EmployeePageMaker, EmployeeCounter {
 
   private final EmployeeRepository employeeRepository;
-  private final DepartmentFinder departmentFinder;
 
   @Override
   @Transactional(readOnly = true)
@@ -84,7 +82,7 @@ public class EmployeeQueryService implements EmployeeFinder, EmployeePageMaker, 
   }
 
   @Override
-  public Integer countEmployeesByDepartment_Id(Long departmentId) {
+  public Long countEmployeesByDepartment_Id(Long departmentId) {
     return employeeRepository.countEmployeesByDepartment_Id(departmentId);
   }
 }
