@@ -39,7 +39,7 @@ public class EmployeeController {
   // 직원등록
   @PostMapping
   public EmployeeDto createEmployee(
-      @RequestPart EmployeeCreateRequest request,
+      @RequestPart("employee") EmployeeCreateRequest request,
       @RequestPart(value = "profile", required = false) MultipartFile profile,
       HttpServletRequest httpServletRequest) {
     String ipAddress = httpServletRequest.getRemoteAddr();
@@ -58,7 +58,7 @@ public class EmployeeController {
   @PatchMapping("/{id}")
   public EmployeeDto updateEmployee(
       @PathVariable Long id,
-      @RequestPart EmployeeUpdateRequest request,
+      @RequestPart("employee") EmployeeUpdateRequest request,
       HttpServletRequest httpServletRequest,
       @RequestPart(value = "profile", required = false) MultipartFile profile) {
     String ipAddress = httpServletRequest.getRemoteAddr();
