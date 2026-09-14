@@ -2,6 +2,7 @@ package com.sprint.hrbank.application.fileinfo;
 
 import static java.nio.file.Files.createDirectories;
 import static java.nio.file.Files.deleteIfExists;
+import static java.nio.file.Files.size;
 import static java.util.UUID.randomUUID;
 
 import com.sprint.hrbank.application.fileinfo.dto.FileDownloadDto;
@@ -105,5 +106,15 @@ public class FileInfoService {
     }
 
     fileInfoRepository.delete(fileInfo);
+  }
+
+  @Transactional
+  public FileInfo register(Path path) {
+    try {
+      return fileInfoRepository.save(
+          FileInfo.create(path.getFileName().toString(), "text/csv", size(path)));
+    } catch (IOException e) {
+      throw new CustomRuntimeException(ExceptionType.BACKUP_FILE_EXEPTION);
+    }
   }
 }
