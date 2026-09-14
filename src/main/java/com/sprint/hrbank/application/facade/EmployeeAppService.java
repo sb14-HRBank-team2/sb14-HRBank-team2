@@ -13,6 +13,7 @@ import com.sprint.hrbank.application.employee.dto.EmployeeUpdateRequest;
 import com.sprint.hrbank.application.employee.provided.command.EmployeeCleaner;
 import com.sprint.hrbank.application.employee.provided.command.EmployeeModifier;
 import com.sprint.hrbank.application.employee.provided.command.EmployeeRegister;
+import com.sprint.hrbank.application.fileinfo.FileInfoService;
 import com.sprint.hrbank.domain.chagelog.ChangeType;
 import com.sprint.hrbank.domain.department.Department;
 import com.sprint.hrbank.domain.employee.Employee;
@@ -28,7 +29,7 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
 
   private final DepartmentFinder departmentFinder;
   private final EmployeeQueryService employeeQueryService;
-  //  private final FileService fileService;
+  private final FileInfoService fileService;
   private final EmployeeCommandService employeeCommandService;
   private final ChangeLogCommandService changeLogCommandService;
 
@@ -39,7 +40,7 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
     Department department = departmentFinder.getById(employeeCreateRequest.departmentId());
     Long profileImageId = null;
     if (profile != null && !profile.isEmpty()) {
-      // profileImageId = fileService.uploadFile(profile);
+      profileImageId = fileService.uploadFile(profile);
     }
 
     Employee employee =
@@ -84,7 +85,7 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
             ChangeType.DELETED, target.getEmployeeNumber(), "직원 삭제", diffs);
     changeLogCommandService.create(dto, ipAddress);
     if (target.getProfileImageId() != null) {
-      // fileService.delete(profileImageId);
+      fileService.deleteFile(target.getProfileImageId());
     }
     employeeCommandService.delete(target);
   }
@@ -96,7 +97,7 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
 
     Long profileImageId = null;
     if (profile != null && !profile.isEmpty()) {
-      // profileImageId = fileService.uploadFile(profile);
+      profileImageId = fileService.uploadFile(profile);
     }
 
     Employee employee = employeeQueryService.getEmployee(employeeId);

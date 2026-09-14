@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -40,7 +39,7 @@ public class EmployeeController {
   // 직원등록
   @PostMapping
   public EmployeeDto createEmployee(
-      @RequestBody EmployeeCreateRequest request,
+      @RequestPart EmployeeCreateRequest request,
       @RequestPart(value = "profile", required = false) MultipartFile profile,
       HttpServletRequest httpServletRequest) {
     String ipAddress = httpServletRequest.getRemoteAddr();
@@ -59,7 +58,7 @@ public class EmployeeController {
   @PatchMapping("/{id}")
   public EmployeeDto updateEmployee(
       @PathVariable Long id,
-      @RequestBody EmployeeUpdateRequest request,
+      @RequestPart EmployeeUpdateRequest request,
       HttpServletRequest httpServletRequest,
       @RequestPart(value = "profile", required = false) MultipartFile profile) {
     String ipAddress = httpServletRequest.getRemoteAddr();
