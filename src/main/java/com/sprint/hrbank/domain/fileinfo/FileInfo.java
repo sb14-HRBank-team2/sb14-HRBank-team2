@@ -27,8 +27,22 @@ public class FileInfo {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
-  @Column(name = "name")
+  @Column(name = "name", nullable = false)
   String name;
 
-  @Column String contentType;
+  @Column(nullable = false)
+  String contentType;
+
+  @Column(nullable = false)
+  Long size;
+
+  private FileInfo(String name, String contentType, Long size) {
+    this.name = name;
+    this.contentType = contentType;
+    this.size = size;
+  }
+
+  public static FileInfo create(String name, String contentType, Long size) {
+    return new FileInfo(name, contentType, size);
+  }
 }
