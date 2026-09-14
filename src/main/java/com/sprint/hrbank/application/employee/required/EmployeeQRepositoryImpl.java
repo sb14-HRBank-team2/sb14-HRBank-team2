@@ -1,4 +1,4 @@
-package com.sprint.hrbank.adapter.persistence.employee;
+package com.sprint.hrbank.application.employee.required;
 
 import static com.sprint.hrbank.domain.department.QDepartment.department;
 import static com.sprint.hrbank.domain.employee.QEmployee.employee;
@@ -8,7 +8,6 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
-import com.sprint.hrbank.application.employee.required.EmployeeQRepository;
 import com.sprint.hrbank.domain.employee.Employee;
 import java.time.LocalDate;
 import java.util.List;
