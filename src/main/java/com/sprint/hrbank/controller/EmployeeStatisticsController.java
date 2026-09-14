@@ -24,7 +24,7 @@ public class EmployeeStatisticsController {
         return ResponseEntity.ok(count);
     }
 
-    @GetMapping("/status/trend")
+    @GetMapping("/stats/trend")
     public ResponseEntity<List<MonthlyTrendDto>> getEmployeeStatusTrend() {
         List<MonthlyTrendDto> trendList = statisticsService.getMonthlyTrend();
         return ResponseEntity.ok(trendList);

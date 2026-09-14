@@ -16,6 +16,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     List<DepartmentDistributionDto> findDepartmentDistribution();
 
     @Query("SELECT new com.sprint.hrbank.dto.MonthlyTrendDto(SUBSTRING(CAST(e.hireDate AS string), 1, 7), COUNT(e.id)) " +
-            "FROM Employee e GROUP BY SUBSTRING(CAST(e.hireDate AS string), 1, 7)")
+            "FROM Employee e WHERE e.hireDate IS NOT NULL GROUP BY SUBSTRING(CAST(e.hireDate AS string), 1, 7)")
     List<MonthlyTrendDto> findMonthlyTrend();
+
+    List<Employee> findTop5ByOrderByIdDesc();
 }
