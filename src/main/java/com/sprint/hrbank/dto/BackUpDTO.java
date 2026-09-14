@@ -2,7 +2,6 @@ package com.sprint.hrbank.dto;
 
 import com.sprint.hrbank.entity.BackUp;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
 
@@ -25,5 +24,9 @@ public class BackUpDTO {
         this.endedAt = backUp.getEndedAt().format(formatter);
         this.status = backUp.getStatus().getDescription();
         this.fileId = backUp.getFile() != null ? backUp.getFile().getId() : null;
+    }
+
+    public static BackUpDTO from(BackUp backUp) {
+
     }
 }

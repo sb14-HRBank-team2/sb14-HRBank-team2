@@ -56,6 +56,10 @@ public class EmployeeService
         .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND));
   }
 
+  public List<Employee> getAll() {
+    return employeeRepository.findAll();
+  }
+
   @Override
   @Transactional
   public EmployeeDto update(Integer employeeId, EmployeeUpdateRequest request) {
