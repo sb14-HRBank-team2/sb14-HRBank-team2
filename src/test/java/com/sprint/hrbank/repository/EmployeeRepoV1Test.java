@@ -2,13 +2,13 @@ package com.sprint.hrbank.repository;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.sprint.hrbank.entity.Department;
-import com.sprint.hrbank.entity.Employee;
+import com.sprint.hrbank.application.department.required.DepartmentRepository;
+import com.sprint.hrbank.application.employee.required.EmployeeRepository;
+import com.sprint.hrbank.domain.department.Department;
+import com.sprint.hrbank.domain.employee.Employee;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestConstructor;
@@ -22,30 +22,19 @@ public class EmployeeRepoV1Test {
   private final DepartmentRepository departmentRepository;
   private final EmployeeRepository employeeRepository;
 
-  @BeforeEach
-  void before() {
-    employeeRepository.deleteAll();
-    departmentRepository.deleteAll();
-  }
-
-  @AfterEach
-  void after() {
-    employeeRepository.deleteAll();
-    departmentRepository.deleteAll();
-  }
-
   @Test
   void createEmployeeTest() {
     // given
-    Department department = Department.create("개발2팀", "TDD", LocalDate.of(2026, 9, 2));
-    departmentRepository.save(department);
-    Department findDepartment =
-        departmentRepository
-            .findById(department.getId())
-            .orElseThrow(() -> new RuntimeException("없는 부서"));
+    //    Department department = Department.create("개발2팀", "TDD", LocalDate.of(2026, 9, 2));
+    //    departmentRepository.save(department);
+    //    Department findDepartment =
+    //        departmentRepository
+    //            .findById(department.getId())
+    //            .orElseThrow(() -> new RuntimeException("없는 부서"));
+    Department department = departmentRepository.getReferenceById(1L);
     // when
     Employee employee =
-        Employee.create(findDepartment, null, "박태양", "test@test.com", "tester", LocalDate.now());
+        Employee.create(department, null, "sprinter", "intelliJ5", "sprinter", LocalDate.now());
     employeeRepository.save(employee);
     Employee findEmployee =
         employeeRepository
