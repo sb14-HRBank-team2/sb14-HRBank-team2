@@ -1,5 +1,6 @@
 package com.sprint.hrbank.application.employee.required;
 
+import com.sprint.hrbank.adapter.persistence.employee.EmployeeQRepository;
 import com.sprint.hrbank.domain.employee.Employee;
 import java.util.List;
 import java.util.Optional;

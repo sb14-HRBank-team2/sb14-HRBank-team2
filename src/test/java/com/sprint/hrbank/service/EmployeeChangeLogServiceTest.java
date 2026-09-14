@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.sprint.hrbank.application.changelog.required.ChangeLogRepository;
 import com.sprint.hrbank.application.department.required.DepartmentRepository;
-import com.sprint.hrbank.application.employee.EmployeeCommandService;
 import com.sprint.hrbank.application.employee.dto.EmployeeCreateRequest;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeUpdateRequest;
 import com.sprint.hrbank.application.employee.required.EmployeeRepository;
+import com.sprint.hrbank.application.facade.EmployeeAppService;
 import com.sprint.hrbank.domain.chagelog.ChangeLog;
 import com.sprint.hrbank.domain.department.Department;
 import com.sprint.hrbank.domain.employee.Employee;
@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class EmployeeChangeLogServiceTest {
 
-  private final EmployeeCommandService employeeService;
+  private final EmployeeAppService employeeService;
   private final EmployeeRepository employeeRepository;
   private final DepartmentRepository departmentRepository;
   private final ChangeLogRepository changeLogRepository;
@@ -61,7 +61,7 @@ public class EmployeeChangeLogServiceTest {
     String testIpAddress = "192.168.0.99";
 
     // When (실행)
-    EmployeeDto employeeDetailDto = employeeService.register(request, testIpAddress);
+    EmployeeDto employeeDetailDto = employeeService.register(request, testIpAddress, null);
 
     // Then (검증)
     assertThat(employeeDetailDto.name()).isEqualTo("신상엽");
@@ -111,7 +111,8 @@ public class EmployeeChangeLogServiceTest {
     String testIpAddress = "192.168.0.99";
 
     // When (실행)
-    EmployeeDto employeeDetailDto = employeeService.update(employeeId, request, testIpAddress);
+    EmployeeDto employeeDetailDto =
+        employeeService.update(employeeId, request, testIpAddress, null);
 
     // Then (검증)
     assertThat(employeeDetailDto.name()).isEqualTo("신상엽");

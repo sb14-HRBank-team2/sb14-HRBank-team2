@@ -1,4 +1,4 @@
-package com.sprint.hrbank.application.employee.required;
+package com.sprint.hrbank.adapter.persistence.employee;
 
 import static com.sprint.hrbank.domain.department.QDepartment.department;
 import static com.sprint.hrbank.domain.employee.QEmployee.employee;
