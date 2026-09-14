@@ -15,11 +15,10 @@ public enum ExceptionType {
   필요한 예외의 형식은 아래의 예외타입대로 작성해주시면 됩니다
    */
   USER_NOT_FOUND(Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "User with id %s not found"),
-  DEPARTMENT_NOT_FOUND(
-      Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "Department with id %s not found"),
+  DEPARTMENT_NOT_FOUND(Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "Department with id %s not found"),
   INVALID_REQUEST(Level.WARN, HttpURLConnection.HTTP_BAD_REQUEST, "Invalid request"),
-  CHANGE_LOG_NOT_FOUND(
-      Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "ChangeLog with id %s not found");
+  CHANGE_LOG_NOT_FOUND(Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "ChangeLog with id %s not found"),
+  FILE_NOT_FOUND(Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "File not found on disk");
 
   Level level;
   int status;
