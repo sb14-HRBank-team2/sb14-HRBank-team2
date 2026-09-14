@@ -3,6 +3,7 @@ package com.sprint.hrbank.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.sprint.hrbank.application.backup.BackupCommandService;
+import com.sprint.hrbank.application.backup.BackupQueryService;
 import com.sprint.hrbank.application.backup.dto.BackupDto;
 import com.sprint.hrbank.application.backup.required.BackupRepository;
 import com.sprint.hrbank.common.config.QuerydslConfig;
@@ -21,11 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
       "spring.jpa.hibernate.ddl-auto=create-drop",
       "spring.data.jpa.repositories.bootstrap-mode=lazy"
     })
-@Import({BackupCommandService.class, QuerydslConfig.class})
+@Import({BackupCommandService.class, BackupQueryService.class, QuerydslConfig.class})
 @Transactional
 class BackupCommandServiceTest {
 
   @Autowired private BackupCommandService backupCommandService;
+
+  @Autowired private BackupQueryService backupQueryService;
 
   @Autowired private BackupRepository backupRepository;
 
@@ -43,5 +46,17 @@ class BackupCommandServiceTest {
     assertThat(result.fileId()).isNull();
     assertThat(saved.getStatus()).isEqualTo(BackupStatus.IN_PROGRESS);
     assertThat(saved.getWorker()).isEqualTo("ip주소");
+  }
+
+  @Test
+  @DisplayName("진행중인 최신백업 이력조회")
+  void getLatestBackup() {
+    BackupDto created = backupCommandService.create("ip주소");
+
+    BackupDto result = backupQueryService.getLatestBackupByStatus(BackupStatus.IN_PROGRESS);
+
+    assertThat(result.id()).isEqualTo(created.id());
+    assertThat(result.status()).isEqualTo(BackupStatus.IN_PROGRESS);
+    assertThat(result.worker()).isEqualTo("ip주소");
   }
 }
