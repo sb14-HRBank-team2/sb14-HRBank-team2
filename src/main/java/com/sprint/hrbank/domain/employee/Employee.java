@@ -102,6 +102,7 @@ public class Employee {
       Department department,
       String position,
       LocalDate hireDate,
+      Long profileImageId,
       EmployeeStatus status) {
     if (name != null) {
       this.name = name;
@@ -114,6 +115,9 @@ public class Employee {
     }
     if (position != null) {
       this.position = position;
+    }
+    if (profileImageId != null) {
+      this.profileImageId = profileImageId;
     }
     if (hireDate != null) {
       this.hireDate = hireDate;

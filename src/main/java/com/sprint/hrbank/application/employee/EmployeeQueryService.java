@@ -5,6 +5,7 @@ import static com.sprint.hrbank.application.employee.validation.EmployeeSearchCo
 import com.sprint.hrbank.application.employee.dto.CursorPageResponseEmployeeDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeCounter;
+import com.sprint.hrbank.application.employee.provided.query.EmployeeEntityFinder;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeFinder;
 import com.sprint.hrbank.application.employee.provided.query.EmployeePageMaker;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
@@ -19,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class EmployeeQueryService implements EmployeeFinder, EmployeePageMaker, EmployeeCounter {
+public class EmployeeQueryService
+    implements EmployeeFinder, EmployeePageMaker, EmployeeCounter, EmployeeEntityFinder {
 
   private final EmployeeRepository employeeRepository;
 
@@ -84,5 +86,13 @@ public class EmployeeQueryService implements EmployeeFinder, EmployeePageMaker, 
   @Override
   public Long countEmployeesByDepartment_Id(Long departmentId) {
     return employeeRepository.countEmployeesByDepartment_Id(departmentId);
+  }
+
+  @Override
+  public Employee getEmployee(Long id) {
+
+    return employeeRepository
+        .findById(id)
+        .orElseThrow(() -> new CustomRuntimeException(ExceptionType.EMPLOYEE_NOT_FOUND));
   }
 }
