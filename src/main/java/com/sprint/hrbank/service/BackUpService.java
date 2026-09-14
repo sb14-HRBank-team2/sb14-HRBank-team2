@@ -24,7 +24,7 @@ import static com.sprint.hrbank.exception.ExceptionType.SERVER_ERROR;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class BackUpService implements BackUpRegister, BackUpFinder {
+public class BackUpService implements BackUpRegister{
 
     private final BackUpRepository backUpRepository;
     private final BackUpRegister backUpRegister;
@@ -55,12 +55,12 @@ public class BackUpService implements BackUpRegister, BackUpFinder {
 
         // 4. 로컬 디스크 또는 서버 저장 경로에 파일 물리적 저장
         try{
-            // String fileName = "employee_backup_" + "데이터 백업 이력 ID(나중에 호출)" + ".csv";
-            // String filePath = "/Users/codeit/Desktop/csv 테스트" + fileName;
+            String fileName = "employee_backup_" + "데이터 백업 이력 ID(나중에 호출)" + ".csv";
+            String filePath = "/Users/codeit/Desktop/csv 테스트" + fileName;
 
             // 테스트 용
-            String temporaryBackupId = "999L";
-            String filePath = "employee_backup_" + temporaryBackupId + ".csv";
+            // String temporaryBackupId = "999L";
+            // String filePath = "employee_backup_" + temporaryBackupId + ".csv";
 
             // 5. 서버 내부에 저장
             Path path = Paths.get(filePath);
@@ -69,7 +69,7 @@ public class BackUpService implements BackUpRegister, BackUpFinder {
             // 5. File 테이블에 정보 저장
             int Filesize = csvEmployee.toString().getBytes(StandardCharsets.UTF_8).length;
             File fileEntity = File.create(
-                    temporaryBackupId,
+                    fileName,
                     "csv",
                     (long)Filesize,
                     filePath
@@ -84,10 +84,4 @@ public class BackUpService implements BackUpRegister, BackUpFinder {
         }
     }
 
-    @Override
-    public List<BackUpDTO> getAll() {
-        List<BackUp> backUps = backUpRepository.findAll();
-        backUps.stream()
-                .map(BackUpDTO::)
-    }
 }

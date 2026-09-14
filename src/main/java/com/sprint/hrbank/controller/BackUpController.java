@@ -20,9 +20,9 @@ public class BackUpController {
     private final BackUpRegister backUpRegister;
 
     // 데이터 백업 목록 조회
-    @RequestMapping(method = RequestMethod.GET, value = "/api/backups")
-    public ResponseEntity<BackUpDTO> getBackUps() {
-    }
+//    @RequestMapping(method = RequestMethod.GET, value = "/api/backups")
+//    public ResponseEntity<BackUpDTO> getBackUps() {
+//    }
 
     // 데이터 백업 생성
     @RequestMapping(method = RequestMethod.POST, value = "/api/backups")
