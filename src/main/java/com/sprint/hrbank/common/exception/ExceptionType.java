@@ -19,7 +19,9 @@ public enum ExceptionType {
       Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "Department with id %s not found"),
   INVALID_REQUEST(Level.WARN, HttpURLConnection.HTTP_BAD_REQUEST, "Invalid request"),
   CHANGE_LOG_NOT_FOUND(
-      Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "ChangeLog with id %s not found");
+      Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "ChangeLog with id %s not found"),
+  BACKUP_NOT_FOUND(Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "Backup not found"),
+  BACKUP_ING(Level.WARN, HttpURLConnection.HTTP_CONFLICT, "Backup is already in progress");
 
   Level level;
   int status;
