@@ -66,7 +66,7 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
     Employee target =
         employeeRepository
             .findById(employeeId)
-            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND));
+            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.EMPLOYEE_NOT_FOUND));
     // 이력생성
     List<DiffCreateRequestDto> diffs =
         List.of(
@@ -91,7 +91,7 @@ public class EmployeeCommandService implements EmployeeRegister, EmployeeCleaner
     Employee employee =
         employeeRepository
             .findById(employeeId)
-            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND));
+            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.EMPLOYEE_NOT_FOUND));
 
     Department department = employee.getDepartment();
     if (request.departmentId() != null) {

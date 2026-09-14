@@ -30,7 +30,7 @@ public class EmployeeQueryService implements EmployeeFinder, EmployeePageMaker {
     Employee employee =
         employeeRepository
             .findById(employeeId)
-            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.USER_NOT_FOUND));
+            .orElseThrow(() -> new CustomRuntimeException(ExceptionType.EMPLOYEE_NOT_FOUND));
     return EmployeeDto.from(employee);
   }
 
