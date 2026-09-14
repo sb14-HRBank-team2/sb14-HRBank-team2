@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class CustomRuntimeException extends RuntimeException {
+
   private final ExceptionType type;
 
   // 에러타입만 받을때

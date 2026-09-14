@@ -36,14 +36,14 @@ public class Employee {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  Integer id;
+  Long id;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "department_id", nullable = false)
   Department department;
 
   @Column(name = "profile_image_id")
-  Integer profileImageId;
+  Long profileImageId;
 
   @Column(nullable = false, length = 50)
   String name;
@@ -66,7 +66,7 @@ public class Employee {
 
   private Employee(
       Department department,
-      Integer profileImageId,
+      Long profileImageId,
       String name,
       String email,
       String position,
@@ -83,7 +83,7 @@ public class Employee {
 
   public static Employee create(
       Department department,
-      Integer profileImageId,
+      Long profileImageId,
       String name,
       String email,
       String position,

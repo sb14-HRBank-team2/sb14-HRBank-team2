@@ -1,8 +1,8 @@
 package com.sprint.hrbank.application.employee.provided.query;
 
-import com.sprint.hrbank.domain.employee.Employee;
+import com.sprint.hrbank.application.employee.dto.EmployeeDto;
 
 public interface EmployeeFinder {
 
-  Employee getById(Integer employeeId);
+  EmployeeDto getById(Long employeeId);
 }

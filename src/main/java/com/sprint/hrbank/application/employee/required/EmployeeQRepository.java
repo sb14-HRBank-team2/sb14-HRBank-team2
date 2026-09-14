@@ -1,0 +1,12 @@
+package com.sprint.hrbank.application.employee.required;
+
+import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
+import com.sprint.hrbank.domain.employee.Employee;
+import java.util.List;
+
+public interface EmployeeQRepository {
+
+  List<Employee> search(EmployeeSearchCond employeeSearchCond);
+
+  Long countByCondition(EmployeeSearchCond cond);
+}
