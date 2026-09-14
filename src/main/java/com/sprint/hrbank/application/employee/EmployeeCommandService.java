@@ -3,7 +3,7 @@ package com.sprint.hrbank.application.employee;
 import com.sprint.hrbank.application.changelog.ChangeLogCommandService;
 import com.sprint.hrbank.application.changelog.dto.ChangeLogCreateRequestDto;
 import com.sprint.hrbank.application.changelog.dto.DiffCreateRequestDto;
-import com.sprint.hrbank.application.department.provided.DepartmentFinder;
+import com.sprint.hrbank.application.department.provided.query.DepartmentFinder;
 import com.sprint.hrbank.application.employee.dto.EmployeeCreateRequest;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeUpdateRequest;

@@ -1,4 +1,4 @@
-package com.sprint.hrbank.application.department.provided;
+package com.sprint.hrbank.application.department.provided.query;
 
 import com.sprint.hrbank.domain.department.Department;
 

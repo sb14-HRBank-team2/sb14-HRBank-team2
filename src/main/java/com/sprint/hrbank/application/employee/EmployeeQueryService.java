@@ -2,9 +2,9 @@ package com.sprint.hrbank.application.employee;
 
 import static com.sprint.hrbank.application.employee.validation.EmployeeSearchCondValidator.validateEmployeeSearchCond;
 
-import com.sprint.hrbank.application.department.provided.DepartmentFinder;
 import com.sprint.hrbank.application.employee.dto.CursorPageResponseEmployeeDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
+import com.sprint.hrbank.application.employee.provided.query.EmployeeCounter;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeFinder;
 import com.sprint.hrbank.application.employee.provided.query.EmployeePageMaker;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
@@ -19,10 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class EmployeeQueryService implements EmployeeFinder, EmployeePageMaker {
+public class EmployeeQueryService implements EmployeeFinder, EmployeePageMaker, EmployeeCounter {
 
   private final EmployeeRepository employeeRepository;
-  private final DepartmentFinder departmentFinder;
 
   @Override
   @Transactional(readOnly = true)
@@ -80,5 +79,10 @@ public class EmployeeQueryService implements EmployeeFinder, EmployeePageMaker {
       return String.valueOf(employee.getHireDate());
     }
     throw new CustomRuntimeException(ExceptionType.INVALID_REQUEST);
+  }
+
+  @Override
+  public Long countEmployeesByDepartment_Id(Long departmentId) {
+    return employeeRepository.countEmployeesByDepartment_Id(departmentId);
   }
 }
