@@ -3,11 +3,10 @@ package com.sprint.hrbank.service;
 import com.sprint.hrbank.dto.DepartmentDistributionDto;
 import com.sprint.hrbank.dto.MonthlyTrendDto;
 import com.sprint.hrbank.repository.EmployeeRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
