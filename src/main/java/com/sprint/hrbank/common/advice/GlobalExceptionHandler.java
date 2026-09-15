@@ -3,6 +3,7 @@ package com.sprint.hrbank.common.advice;
 import com.sprint.hrbank.common.exception.CustomRuntimeException;
 import com.sprint.hrbank.common.exception.ErrorResponse;
 import com.sprint.hrbank.common.exception.ExceptionType;
+import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,12 @@ public class GlobalExceptionHandler {
         .log(exception.getMessage());
     // 프론트에 에러 쏘기
     return ResponseEntity.status(exceptionType.getStatus())
-        .body(new ErrorResponse(exceptionType.getStatus(), exception.getMessage()));
+        .body(
+            new ErrorResponse(
+                LocalDateTime.now(),
+                exceptionType.getStatus(),
+                exceptionType.getMessage(),
+                exception.getMessage()));
   }
 
   @ExceptionHandler(Exception.class)
@@ -32,6 +38,11 @@ public class GlobalExceptionHandler {
     log.error("정의되지 않은 예외 발생", exception);
     // 프론트에 에러 화면쏴주기
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "서버 내부 오류입니다"));
+        .body(
+            new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Internal server error",
+                "Undefined server error"));
   }
 }
