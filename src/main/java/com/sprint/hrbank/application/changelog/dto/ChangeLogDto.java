@@ -4,7 +4,7 @@ import com.sprint.hrbank.domain.chagelog.ChangeLog;
 import com.sprint.hrbank.domain.chagelog.ChangeType;
 import java.time.LocalDateTime;
 
-public record ChangeLogResponseDto(
+public record ChangeLogDto(
     Long id,
     ChangeType type,
     String employeeNumber,
@@ -12,8 +12,8 @@ public record ChangeLogResponseDto(
     String ipAddress,
     LocalDateTime at) {
 
-  public static ChangeLogResponseDto from(ChangeLog changeLog) {
-    return new ChangeLogResponseDto(
+  public static ChangeLogDto from(ChangeLog changeLog) {
+    return new ChangeLogDto(
         changeLog.getId(),
         changeLog.getType(),
         changeLog.getEmployeeNumber(),
