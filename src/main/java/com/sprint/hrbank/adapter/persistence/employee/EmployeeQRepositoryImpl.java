@@ -60,7 +60,7 @@ public class EmployeeQRepositoryImpl implements EmployeeQRepository {
         .map(
             tuple -> {
               Long count = tuple.get(countExpression);
-              double percentage = (count * 10.0 / sum) * 10.0;
+              double percentage = Math.round(count * 1000.0 / sum) / 10.0;
               return EmployeeDistributionDto.builder()
                   .percentage(percentage)
                   .groupKey(tuple.get(groupExpression))
@@ -90,7 +90,7 @@ public class EmployeeQRepositoryImpl implements EmployeeQRepository {
       Long count = hireDates.stream().filter(hireDate -> hireDate.isBefore(endDate)).count();
 
       Long change = i == 0 ? 0 : count - previousCount;
-      double changeRate = i == 0 ? 0 : (10.0 * change / previousCount) * 10.0;
+      double changeRate = i == 0 ? 0 : Math.round(change * 1000.0 / previousCount) / 10.0;
       result.add(
           EmployeeTrendDto.builder()
               .count(count)
