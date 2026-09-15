@@ -1,6 +1,6 @@
 package com.sprint.hrbank.application.backup;
 
-import com.sprint.hrbank.application.employee.required.EmployeeRepository;
+import com.sprint.hrbank.application.employee.EmployeeQueryService;
 import com.sprint.hrbank.common.exception.CustomRuntimeException;
 import com.sprint.hrbank.common.exception.ExceptionType;
 import com.sprint.hrbank.domain.employee.Employee;
@@ -21,13 +21,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CSVService {
 
-  private final EmployeeRepository employeeRepository;
+  private final EmployeeQueryService employeeQueryService;
 
   @Value("${file.dir:/tmp/hrbank/files/}")
   private String fileDirectory;
 
   public Path createCSV() {
-    List<Employee> empList = employeeRepository.findAll(Sort.by("id"));
+    List<Employee> empList = employeeQueryService.getAll(Sort.by("id"));
     String fileName =
         "employee_backup_" + LocalDateTime.now().toString().replace(":", "-") + ".csv";
     Path path = Paths.get(fileDirectory, fileName);
