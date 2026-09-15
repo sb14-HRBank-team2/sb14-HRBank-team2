@@ -63,7 +63,8 @@ public class Backup {
     this.endedAt = LocalDateTime.now();
   }
 
-  public void fail() {
+  public void fail(FileInfo fileInfo) {
+    this.fileInfo = fileInfo;
     this.status = BackupStatus.FAILED;
     this.endedAt = LocalDateTime.now();
   }

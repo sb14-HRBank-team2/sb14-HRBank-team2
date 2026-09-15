@@ -111,8 +111,13 @@ public class FileInfoService {
   @Transactional
   public FileInfo register(Path path) {
     try {
-      return fileInfoRepository.save(
-          FileInfo.create(path.getFileName().toString(), "text/csv", size(path)));
+      // 파일이름이 .log면 .log타입 .csv면 .csv로 분기타기
+      String fileName = path.getFileName().toString();
+      String type = "text/csv";
+      if (fileName.endsWith(".log")) {
+        type = "text/plain";
+      }
+      return fileInfoRepository.save(FileInfo.create(fileName, type, size(path)));
     } catch (IOException e) {
       throw new CustomRuntimeException(ExceptionType.BACKUP_FILE_EXEPTION);
     }

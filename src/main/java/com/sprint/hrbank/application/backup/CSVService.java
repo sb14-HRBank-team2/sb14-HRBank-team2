@@ -10,13 +10,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +26,10 @@ public class CSVService {
   @Value("${file.dir:/tmp/hrbank/files/}")
   private String fileDirectory;
 
-  @Transactional(readOnly = true)
   public Path createCSV() {
     List<Employee> empList = employeeRepository.findAll(Sort.by("id"));
-    String fileName = "employee_backup_" + UUID.randomUUID() + ".csv";
+    String fileName =
+        "employee_backup_" + LocalDateTime.now().toString().replace(":", "-") + ".csv";
     Path path = Paths.get(fileDirectory, fileName);
 
     try {
@@ -61,6 +60,10 @@ public class CSVService {
         }
       }
     } catch (IOException e) {
+      try {
+        Files.deleteIfExists(path);
+      } catch (IOException exception) {
+      }
       throw new CustomRuntimeException(ExceptionType.BACKUP_FILE_EXEPTION);
     }
 
