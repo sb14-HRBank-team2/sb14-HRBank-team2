@@ -15,6 +15,7 @@ public record DepartmentDto(
         .name(department.getName())
         .description(department.getDescription())
         .employeeCount(employeeCount)
+        .establishedDate(department.getEstablishedDate())
         .build();
   }
 }
