@@ -4,6 +4,8 @@ import com.sprint.hrbank.adapter.persistence.changelog.ChangeLogSearchCond;
 import com.sprint.hrbank.application.changelog.dto.ChangeLogDetailDto;
 import com.sprint.hrbank.application.changelog.dto.ChangeLogDto;
 import com.sprint.hrbank.application.changelog.dto.CursorPageResponseChangeLogDto;
+import com.sprint.hrbank.application.changelog.provided.query.ChangeLogCounter;
+import com.sprint.hrbank.application.changelog.provided.query.ChangeLogDetailFinder;
 import com.sprint.hrbank.application.changelog.provided.query.ChangeLogPageMaker;
 import com.sprint.hrbank.application.changelog.required.ChangeLogRepository;
 import com.sprint.hrbank.application.employee.required.EmployeeRepository;
@@ -19,7 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ChangeLogQueryService implements ChangeLogPageMaker {
+public class ChangeLogQueryService
+    implements ChangeLogPageMaker, ChangeLogCounter, ChangeLogDetailFinder {
 
   private final ChangeLogRepository changeLogRepository;
   private final EmployeeRepository employeeRepository;
@@ -68,6 +71,7 @@ public class ChangeLogQueryService implements ChangeLogPageMaker {
   }
 
   @Transactional(readOnly = true)
+  @Override
   public Long getChangeLogCount(LocalDateTime fromDate, LocalDateTime toDate) {
     LocalDateTime now = LocalDateTime.now();
     LocalDateTime from = fromDate == null ? now.minusDays(7) : fromDate;
@@ -81,6 +85,7 @@ public class ChangeLogQueryService implements ChangeLogPageMaker {
   }
 
   @Transactional(readOnly = true)
+  @Override
   public ChangeLogDetailDto getChangeLogDetail(Long changeLogId) {
     ChangeLog changeLog =
         changeLogRepository

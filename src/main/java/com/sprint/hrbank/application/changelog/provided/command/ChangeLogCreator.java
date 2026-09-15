@@ -1,4 +1,4 @@
-package com.sprint.hrbank.application.changelog.provided;
+package com.sprint.hrbank.application.changelog.provided.command;
 
 import com.sprint.hrbank.application.changelog.dto.ChangeLogCreateRequestDto;
 import com.sprint.hrbank.application.changelog.dto.ChangeLogDto;
