@@ -15,6 +15,7 @@ import com.sprint.hrbank.common.exception.ExceptionType;
 import com.sprint.hrbank.domain.employee.Employee;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,5 +95,11 @@ public class EmployeeQueryService
     return employeeRepository
         .findById(id)
         .orElseThrow(() -> new CustomRuntimeException(ExceptionType.EMPLOYEE_NOT_FOUND));
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public List<Employee> getAll(Sort sort) {
+    return employeeRepository.findAll(sort);
   }
 }

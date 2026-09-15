@@ -21,7 +21,9 @@ public enum ExceptionType {
   CHANGE_LOG_NOT_FOUND(
       Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "ChangeLog with id %s not found"),
   BACKUP_NOT_FOUND(Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "Backup not found"),
-  BACKUP_ING(Level.WARN, HttpURLConnection.HTTP_CONFLICT, "Backup is already in progress");
+  BACKUP_ING(Level.WARN, HttpURLConnection.HTTP_CONFLICT, "Backup is already in progress"),
+  BACKUP_FILE_EXEPTION(
+      Level.ERROR, HttpURLConnection.HTTP_INTERNAL_ERROR, "Failed to write backup file");
 
   Level level;
   int status;
