@@ -15,10 +15,10 @@ public record ChangeLogDetailDto(
     LocalDateTime at,
     String employeeName,
     Long profileImageId,
-    List<DiffResponseDto> diffs) {
+    List<DiffDto> diffs) {
 
   public static ChangeLogDetailDto from(
-      ChangeLog changeLog, Employee employee, List<DiffResponseDto> diffs) {
+      ChangeLog changeLog, Employee employee, List<DiffDto> diffs) {
     return new ChangeLogDetailDto(
         changeLog.getId(),
         changeLog.getType(),

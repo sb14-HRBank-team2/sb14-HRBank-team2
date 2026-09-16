@@ -1,7 +1,7 @@
 package com.sprint.hrbank.application.changelog;
 
 import com.sprint.hrbank.application.changelog.dto.DiffCreateRequestDto;
-import com.sprint.hrbank.application.changelog.dto.DiffResponseDto;
+import com.sprint.hrbank.application.changelog.dto.DiffDto;
 import com.sprint.hrbank.application.changelog.required.ChangeLogRepository;
 import com.sprint.hrbank.application.changelog.required.DiffRepository;
 import com.sprint.hrbank.common.exception.CustomRuntimeException;
@@ -20,7 +20,7 @@ public class DiffService {
   private final DiffRepository diffRepository;
   private final ChangeLogRepository changeLogRepository;
 
-  public DiffResponseDto create(DiffCreateRequestDto dto, Long changeLogId) {
+  public DiffDto create(DiffCreateRequestDto dto, Long changeLogId) {
     // 아디로 이력 객체로 가져와서 diff에 박아줘야함
     ChangeLog changeLog =
         changeLogRepository
@@ -30,15 +30,15 @@ public class DiffService {
 
     //    Diff target = dto.toEntity(changeLog);
     Diff diff = Diff.create(dto.propertyName(), dto.before(), dto.after(), changeLog);
-    return DiffResponseDto.from(diffRepository.save(diff));
+    return DiffDto.from(diffRepository.save(diff));
   }
 
-  public List<DiffResponseDto> readAll(Long changeLogId) {
+  public List<DiffDto> readAll(Long changeLogId) {
     List<Diff> retrievedList = diffRepository.findAllByChangeLogId(changeLogId);
 
-    List<DiffResponseDto> result = new ArrayList<>();
+    List<DiffDto> result = new ArrayList<>();
     for (Diff each : retrievedList) {
-      DiffResponseDto dto = DiffResponseDto.from(each);
+      DiffDto dto = DiffDto.from(each);
       result.add(dto);
     }
     return result;

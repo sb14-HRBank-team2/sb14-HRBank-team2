@@ -1,8 +1,8 @@
 package com.sprint.hrbank.application.facade;
 
-import com.sprint.hrbank.application.changelog.ChangeLogCommandService;
 import com.sprint.hrbank.application.changelog.dto.ChangeLogCreateRequestDto;
 import com.sprint.hrbank.application.changelog.dto.DiffCreateRequestDto;
+import com.sprint.hrbank.application.changelog.provided.command.ChangeLogCreator;
 import com.sprint.hrbank.application.department.provided.query.DepartmentFinder;
 import com.sprint.hrbank.application.employee.EmployeeCommandService;
 import com.sprint.hrbank.application.employee.EmployeeDiffFinder;
@@ -31,7 +31,7 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
   private final EmployeeQueryService employeeQueryService;
   private final FileInfoService fileService;
   private final EmployeeCommandService employeeCommandService;
-  private final ChangeLogCommandService changeLogCommandService;
+  private final ChangeLogCreator changeLogCreator;
 
   @Override
   @Transactional
@@ -60,7 +60,7 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
         new ChangeLogCreateRequestDto(
             ChangeType.CREATED, employee.getEmployeeNumber(), employeeCreateRequest.memo(), diffs);
 
-    changeLogCommandService.create(dto, ipAddress);
+    changeLogCreator.create(dto, ipAddress);
 
     return EmployeeDto.from(employee);
   }
@@ -83,7 +83,7 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
     ChangeLogCreateRequestDto dto =
         new ChangeLogCreateRequestDto(
             ChangeType.DELETED, target.getEmployeeNumber(), "직원 삭제", diffs);
-    changeLogCommandService.create(dto, ipAddress);
+    changeLogCreator.create(dto, ipAddress);
     if (target.getProfileImageId() != null) {
       fileService.deleteFile(target.getProfileImageId());
     }
@@ -125,7 +125,7 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
         new ChangeLogCreateRequestDto(
             ChangeType.UPDATED, employee.getEmployeeNumber(), request.memo(), diffs);
 
-    changeLogCommandService.create(dto, ipAddress);
+    changeLogCreator.create(dto, ipAddress);
 
     return EmployeeDto.from(update);
   }
