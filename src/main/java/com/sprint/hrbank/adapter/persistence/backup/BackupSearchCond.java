@@ -1,12 +1,13 @@
 package com.sprint.hrbank.adapter.persistence.backup;
 
 import com.sprint.hrbank.domain.backup.BackupStatus;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record BackupSearchCond(
     String worker,
     BackupStatus status,
-    LocalDate searchDate,
+    LocalDateTime startedAtFrom,
+    LocalDateTime startedAtTo,
     Long idAfter,
     String cursor,
     Integer size,
