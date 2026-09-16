@@ -1,9 +1,11 @@
 package com.sprint.hrbank.adapter.webapi.changelog;
 
 import com.sprint.hrbank.adapter.persistence.changelog.ChangeLogSearchCond;
-import com.sprint.hrbank.application.changelog.ChangeLogQueryService;
 import com.sprint.hrbank.application.changelog.dto.ChangeLogDetailDto;
 import com.sprint.hrbank.application.changelog.dto.CursorPageResponseChangeLogDto;
+import com.sprint.hrbank.application.changelog.provided.query.ChangeLogCounter;
+import com.sprint.hrbank.application.changelog.provided.query.ChangeLogDetailFinder;
+import com.sprint.hrbank.application.changelog.provided.query.ChangeLogPageMaker;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,11 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ChangeLogController {
 
-  private final ChangeLogQueryService changeLogQueryService;
+  private final ChangeLogPageMaker changeLogPageMaker;
+  private final ChangeLogCounter changeLogCounter;
+  private final ChangeLogDetailFinder changeLogDetailFinder;
 
   @GetMapping
   public CursorPageResponseChangeLogDto getChangeLogs(@ModelAttribute ChangeLogSearchCond cond) {
-    return changeLogQueryService.getChangeLogPage(cond);
+    return changeLogPageMaker.getChangeLogPage(cond);
   }
 
   @GetMapping("/count")
@@ -32,11 +36,11 @@ public class ChangeLogController {
           LocalDateTime fromDate,
       @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
           LocalDateTime toDate) {
-    return changeLogQueryService.getChangeLogCount(fromDate, toDate);
+    return changeLogCounter.getChangeLogCount(fromDate, toDate);
   }
 
   @GetMapping("/{id}")
   public ChangeLogDetailDto getChangeLogDetail(@PathVariable Long id) {
-    return changeLogQueryService.getChangeLogDetail(id);
+    return changeLogDetailFinder.getChangeLogDetail(id);
   }
 }
