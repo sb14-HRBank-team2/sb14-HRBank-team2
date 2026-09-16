@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-public class FileInfoService {
+public class FileInfoService implements FileCreater, FileDownloader {
 
   private final FileInfoRepository fileInfoRepository;
 
@@ -32,6 +32,7 @@ public class FileInfoService {
   private String fileDirectory;
 
   @Transactional(readOnly = true)
+  @Override
   public FileDownloadDto downloadFile(Long fileId) {
     FileInfo fileInfo =
         fileInfoRepository
@@ -109,6 +110,7 @@ public class FileInfoService {
   }
 
   @Transactional
+  @Override
   public FileInfo register(Path path) {
     try {
       // 파일이름이 .log면 .log타입 .csv면 .csv로 분기타기

@@ -6,6 +6,7 @@ import com.sprint.hrbank.application.backup.BackupCommandService;
 import com.sprint.hrbank.application.backup.BackupQueryService;
 import com.sprint.hrbank.application.backup.CSVService;
 import com.sprint.hrbank.application.backup.dto.BackupDto;
+import com.sprint.hrbank.application.backup.provided.command.CSVCreator;
 import com.sprint.hrbank.application.backup.required.BackupRepository;
 import com.sprint.hrbank.application.department.required.DepartmentRepository;
 import com.sprint.hrbank.application.employee.required.EmployeeRepository;
@@ -51,7 +52,7 @@ class BackupCommandServiceTest {
   @Autowired private BackupQueryService backupQueryService;
 
   @Autowired private BackupRepository backupRepository;
-  @Autowired private CSVService csvService;
+  @Autowired private CSVCreator csvCreator;
   @Autowired private DepartmentRepository departmentRepository;
   @Autowired private EmployeeRepository employeeRepository;
   @Autowired private FileInfoRepository fileInfoRepository;
@@ -60,7 +61,7 @@ class BackupCommandServiceTest {
 
   @BeforeEach
   void setUp() {
-    ReflectionTestUtils.setField(csvService, "fileDirectory", directory.toString());
+    ReflectionTestUtils.setField(csvCreator, "fileDirectory", directory.toString());
   }
 
   @Test
