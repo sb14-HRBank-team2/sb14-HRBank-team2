@@ -1,0 +1,28 @@
+package com.sprint.hrbank.adapter.persistence.backup;
+
+import com.sprint.hrbank.domain.backup.BackupStatus;
+import java.time.LocalDateTime;
+
+public record BackupSearchCond(
+    String worker,
+    BackupStatus status,
+    LocalDateTime startedAtFrom,
+    LocalDateTime startedAtTo,
+    Long idAfter,
+    String cursor,
+    Integer size,
+    String sortField,
+    String sortDirection) {
+
+  public BackupSearchCond {
+    if (size == null) {
+      size = 10;
+    }
+    if (sortField == null) {
+      sortField = "startedAt";
+    }
+    if (sortDirection == null) {
+      sortDirection = "desc";
+    }
+  }
+}
