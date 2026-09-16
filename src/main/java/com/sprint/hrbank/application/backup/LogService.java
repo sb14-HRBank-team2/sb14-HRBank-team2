@@ -1,5 +1,6 @@
 package com.sprint.hrbank.application.backup;
 
+import com.sprint.hrbank.application.backup.provided.command.LogCreator;
 import com.sprint.hrbank.common.exception.CustomRuntimeException;
 import com.sprint.hrbank.common.exception.ExceptionType;
 import java.io.BufferedWriter;
@@ -13,11 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LogService {
+public class LogService implements LogCreator {
 
   @Value("${file.dir:/tmp/hrbank/files/}")
   private String fileDirectory;
 
+  @Override
   public Path createLog(String worker, Exception exception) {
     String fileName = "backup_failed" + LocalDateTime.now().toString().replace(":", "-") + ".log";
     Path path = Paths.get(fileDirectory, fileName);

@@ -1,9 +1,12 @@
 package com.sprint.hrbank.application.backup;
 
 import com.sprint.hrbank.application.backup.dto.BackupDto;
+import com.sprint.hrbank.application.backup.provided.command.BackupCreator;
+import com.sprint.hrbank.application.backup.provided.command.CSVCreator;
+import com.sprint.hrbank.application.backup.provided.command.LogCreator;
 import com.sprint.hrbank.application.backup.required.BackupRepository;
-import com.sprint.hrbank.application.changelog.required.ChangeLogRepository;
-import com.sprint.hrbank.application.fileinfo.FileInfoService;
+import com.sprint.hrbank.application.changelog.provided.query.ChangeLogCounter;
+import com.sprint.hrbank.application.fileinfo.FileCreater;
 import com.sprint.hrbank.common.exception.CustomRuntimeException;
 import com.sprint.hrbank.common.exception.ExceptionType;
 import com.sprint.hrbank.domain.backup.Backup;
@@ -18,15 +21,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class BackupCommandService {
+public class BackupCommandService implements BackupCreator {
 
   private final BackupRepository backupRepository;
-  private final ChangeLogRepository changeLogRepository;
-  private final CSVService csvService;
-  private final LogService logService;
-  private final FileInfoService fileInfoService;
+  private final ChangeLogCounter logCounter;
+  private final CSVCreator csvCreator;
+  private final LogCreator logCreator;
+  private final FileCreater fileCreater;
 
   @Transactional
+  @Override
   public BackupDto create(String worker) {
     if (backupRepository.existsByStatus(BackupStatus.IN_PROGRESS)) {
       throw new CustomRuntimeException(ExceptionType.BACKUP_ING);
@@ -42,7 +46,7 @@ public class BackupCommandService {
 
     // 첫 백업은 완료된 이력이 없으므로 IN_PROGRESS로 저장
     if (target != null
-        && changeLogRepository.countByAtBetween(target.getEndedAt(), LocalDateTime.now()) == 0) {
+        && logCounter.getChangeLogCount(target.getEndedAt(), LocalDateTime.now()) == 0) {
       // 0이면 변경이력 존재 x 백업할필요없
       backup.skip();
     }
@@ -56,8 +60,8 @@ public class BackupCommandService {
     Path csvPath = null;
     try {
       // CSV 파일 생성
-      csvPath = csvService.createCSV();
-      gift.complete(fileInfoService.register(csvPath));
+      csvPath = csvCreator.createCSV();
+      gift.complete(fileCreater.register(csvPath));
     } catch (RuntimeException exception) {
       // CSV fileInfo연동 실패시
       if (csvPath != null) {
@@ -67,7 +71,7 @@ public class BackupCommandService {
         }
       }
       // 그리고 실패.log 파일생성
-      gift.fail(fileInfoService.register(logService.createLog(worker, exception)));
+      gift.fail(fileCreater.register(logCreator.createLog(worker, exception)));
     }
     return BackupDto.from(gift);
   }

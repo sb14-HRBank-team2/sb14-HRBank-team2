@@ -92,7 +92,7 @@ public class EmployeeQRepositoryImpl implements EmployeeQRepository {
       Long change = i == 0 ? 0L : count - previousCount;
       double changeRate;
       if (i == 0 || previousCount == 0) {
-        changeRate = 100;
+        changeRate = 0;
       } else {
         changeRate = Math.round(change * 1000.0 / previousCount) / 10.0;
       }

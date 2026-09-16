@@ -3,6 +3,7 @@ package com.sprint.hrbank.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.sprint.hrbank.application.backup.CSVService;
+import com.sprint.hrbank.application.backup.provided.command.CSVCreator;
 import com.sprint.hrbank.application.department.required.DepartmentRepository;
 import com.sprint.hrbank.application.employee.required.EmployeeRepository;
 import com.sprint.hrbank.common.config.QuerydslConfig;
@@ -27,7 +28,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 @Import({CSVService.class, QuerydslConfig.class})
 class CSVServiceTest {
 
-  @Autowired private CSVService csvService;
+  @Autowired private CSVCreator csvCreator;
   @Autowired private DepartmentRepository departmentRepository;
   @Autowired private EmployeeRepository employeeRepository;
 
@@ -42,9 +43,9 @@ class CSVServiceTest {
             Employee.create(
                 department, null, "김어진", "kim@naver.com", "대리", LocalDate.of(2026, 9, 14)));
     employeeRepository.flush();
-    ReflectionTestUtils.setField(csvService, "fileDirectory", directory.toString());
+    ReflectionTestUtils.setField(csvCreator, "fileDirectory", directory.toString());
 
-    Path csvPath = csvService.createCSV();
+    Path csvPath = csvCreator.createCSV();
 
     assertThat(Files.readAllLines(csvPath))
         .containsExactly(
