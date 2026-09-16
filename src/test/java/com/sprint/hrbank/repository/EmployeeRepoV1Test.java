@@ -34,7 +34,7 @@ public class EmployeeRepoV1Test {
     Department department = departmentRepository.getReferenceById(1L);
     // when
     Employee employee =
-        Employee.create(department, null, "sprinter", "intelliJ5", "sprinter", LocalDate.now());
+        Employee.create(department, null, "sprinter", "intelliJ2", "sprinter", LocalDate.now());
     employeeRepository.save(employee);
     Employee findEmployee =
         employeeRepository

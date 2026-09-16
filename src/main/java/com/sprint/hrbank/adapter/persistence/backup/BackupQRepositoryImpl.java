@@ -110,11 +110,10 @@ public class BackupQRepositoryImpl implements BackupQRepository {
       booleanBuilder.and(backup.status.eq(cond.status()));
     }
     if (cond.startedAtFrom() != null) {
-      booleanBuilder.and(backup.startedAt.goe(cond.startedAtFrom()));
-    }
+      LocalDateTime startOfDay = cond.startedAtFrom();
+      LocalDateTime endOfDay = cond.startedAtTo();
 
-    if (cond.startedAtTo() != null) {
-      booleanBuilder.and(backup.startedAt.loe(cond.startedAtTo()));
+      booleanBuilder.and(backup.startedAt.between(startOfDay, endOfDay));
     }
     return booleanBuilder;
   }

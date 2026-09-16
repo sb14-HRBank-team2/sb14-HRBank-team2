@@ -89,8 +89,13 @@ public class EmployeeQRepositoryImpl implements EmployeeQRepository {
       LocalDate endDate = getEntPoint(unit, fromDate);
       Long count = hireDates.stream().filter(hireDate -> hireDate.isBefore(endDate)).count();
 
-      Long change = i == 0 ? 0 : count - previousCount;
-      double changeRate = i == 0 ? 0 : Math.round(change * 1000.0 / previousCount) / 10.0;
+      Long change = i == 0 ? 0L : count - previousCount;
+      double changeRate;
+      if (i == 0 || previousCount == 0) {
+        changeRate = 100;
+      } else {
+        changeRate = Math.round(change * 1000.0 / previousCount) / 10.0;
+      }
       result.add(
           EmployeeTrendDto.builder()
               .count(count)
