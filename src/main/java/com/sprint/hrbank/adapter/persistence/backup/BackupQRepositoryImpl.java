@@ -8,7 +8,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sprint.hrbank.domain.backup.Backup;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -110,11 +109,12 @@ public class BackupQRepositoryImpl implements BackupQRepository {
     if (cond.status() != null) {
       booleanBuilder.and(backup.status.eq(cond.status()));
     }
-    if (cond.searchDate() != null) {
-      LocalDateTime startOfDay = cond.searchDate().atStartOfDay();
-      LocalDateTime endOfDay = cond.searchDate().atTime(LocalTime.MAX);
+    if (cond.startedAtFrom() != null) {
+      booleanBuilder.and(backup.startedAt.goe(cond.startedAtFrom()));
+    }
 
-      booleanBuilder.and(backup.startedAt.between(startOfDay, endOfDay));
+    if (cond.startedAtTo() != null) {
+      booleanBuilder.and(backup.startedAt.loe(cond.startedAtTo()));
     }
     return booleanBuilder;
   }

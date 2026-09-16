@@ -3,6 +3,8 @@ package com.sprint.hrbank.application.backup;
 import com.sprint.hrbank.adapter.persistence.backup.BackupSearchCond;
 import com.sprint.hrbank.application.backup.dto.BackupDto;
 import com.sprint.hrbank.application.backup.dto.CursorPageResponseBackupDto;
+import com.sprint.hrbank.application.backup.provided.query.BackupLatestFinder;
+import com.sprint.hrbank.application.backup.provided.query.BackupPageMaker;
 import com.sprint.hrbank.application.backup.required.BackupRepository;
 import com.sprint.hrbank.common.exception.CustomRuntimeException;
 import com.sprint.hrbank.common.exception.ExceptionType;
@@ -15,10 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class BackupQueryService {
+public class BackupQueryService implements BackupPageMaker, BackupLatestFinder {
 
   private final BackupRepository backupRepository;
 
+  @Override
   @Transactional(readOnly = true)
   public BackupDto getLatestBackupByStatus(BackupStatus status) {
     Backup target =
@@ -28,6 +31,7 @@ public class BackupQueryService {
     return BackupDto.from(target);
   }
 
+  @Override
   @Transactional(readOnly = true)
   public CursorPageResponseBackupDto getBackups(BackupSearchCond cond) {
     List<Backup> searched = backupRepository.search(cond);
