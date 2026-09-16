@@ -14,18 +14,38 @@ public enum ExceptionType {
   /*가장 많이 쓸거같은 예외 3개를 추가했습니다
   필요한 예외의 형식은 아래의 예외타입대로 작성해주시면 됩니다
    */
-  EMPLOYEE_NOT_FOUND(Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "Employee with id %s not found"),
+  EMPLOYEE_NOT_FOUND(
+      Level.WARN,
+      HttpURLConnection.HTTP_NOT_FOUND,
+      "Employee not found",
+      "Employee with id %s not found"),
   DEPARTMENT_NOT_FOUND(
-      Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "Department with id %s not found"),
-  INVALID_REQUEST(Level.WARN, HttpURLConnection.HTTP_BAD_REQUEST, "Invalid request"),
+      Level.WARN,
+      HttpURLConnection.HTTP_NOT_FOUND,
+      "Department not found",
+      "Department with id %s not found"),
+  INVALID_REQUEST(
+      Level.WARN, HttpURLConnection.HTTP_BAD_REQUEST, "Invalid request", "Invalid request"),
   CHANGE_LOG_NOT_FOUND(
-      Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "ChangeLog with id %s not found"),
-  BACKUP_NOT_FOUND(Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "Backup not found"),
-  BACKUP_ING(Level.WARN, HttpURLConnection.HTTP_CONFLICT, "Backup is already in progress"),
+      Level.WARN,
+      HttpURLConnection.HTTP_NOT_FOUND,
+      "ChangeLog not found",
+      "ChangeLog with id %s not found"),
+  BACKUP_NOT_FOUND(
+      Level.WARN, HttpURLConnection.HTTP_NOT_FOUND, "Backup not found", "Backup not found"),
+  BACKUP_ING(
+      Level.WARN,
+      HttpURLConnection.HTTP_CONFLICT,
+      "Backup is already in progress",
+      "Backup is already in progress"),
   BACKUP_FILE_EXEPTION(
-      Level.ERROR, HttpURLConnection.HTTP_INTERNAL_ERROR, "Failed to write backup file");
+      Level.ERROR,
+      HttpURLConnection.HTTP_INTERNAL_ERROR,
+      "Failed to write backup file",
+      "Failed to write backup file");
 
   Level level;
   int status;
   String message;
+  String details;
 }

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import com.sprint.hrbank.application.changelog.ChangeLogCommandService;
 import com.sprint.hrbank.application.changelog.dto.ChangeLogCreateRequestDto;
-import com.sprint.hrbank.application.changelog.dto.ChangeLogResponseDto;
+import com.sprint.hrbank.application.changelog.dto.ChangeLogDto;
 import com.sprint.hrbank.application.changelog.dto.DiffCreateRequestDto;
 import com.sprint.hrbank.application.changelog.required.ChangeLogRepository;
 import com.sprint.hrbank.application.changelog.required.DiffRepository;
@@ -46,7 +46,7 @@ class ChangeLogCommandServiceTest {
                 new DiffCreateRequestDto("직함", null, "사원")));
 
     // when
-    ChangeLogResponseDto response =
+    ChangeLogDto response =
         changeLogCommandService.create(request, httpServletRequest.getRemoteAddr());
 
     ChangeLog saved = changeLogRepository.findById(response.id()).orElseThrow();

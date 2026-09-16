@@ -4,6 +4,7 @@ import static com.sprint.hrbank.application.employee.validation.EmployeeSearchCo
 
 import com.sprint.hrbank.application.employee.dto.CursorPageResponseEmployeeDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
+import com.sprint.hrbank.application.employee.provided.query.EmployeeAllFinder;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeCounter;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeEntityFinder;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeFinder;
@@ -22,7 +23,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 public class EmployeeQueryService
-    implements EmployeeFinder, EmployeePageMaker, EmployeeCounter, EmployeeEntityFinder {
+    implements EmployeeFinder,
+        EmployeePageMaker,
+        EmployeeCounter,
+        EmployeeEntityFinder,
+        EmployeeAllFinder {
 
   private final EmployeeRepository employeeRepository;
 
@@ -34,6 +39,12 @@ public class EmployeeQueryService
             .findById(employeeId)
             .orElseThrow(() -> new CustomRuntimeException(ExceptionType.EMPLOYEE_NOT_FOUND));
     return EmployeeDto.from(employee);
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public List<Employee> getAll() {
+    return employeeRepository.findAll();
   }
 
   @Transactional(readOnly = true)

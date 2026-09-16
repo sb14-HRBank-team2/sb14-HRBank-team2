@@ -2,8 +2,10 @@ package com.sprint.hrbank.application.changelog;
 
 import com.sprint.hrbank.adapter.persistence.changelog.ChangeLogSearchCond;
 import com.sprint.hrbank.application.changelog.dto.ChangeLogDetailDto;
-import com.sprint.hrbank.application.changelog.dto.ChangeLogResponseDto;
+import com.sprint.hrbank.application.changelog.dto.ChangeLogDto;
 import com.sprint.hrbank.application.changelog.dto.CursorPageResponseChangeLogDto;
+import com.sprint.hrbank.application.changelog.provided.query.ChangeLogCounter;
+import com.sprint.hrbank.application.changelog.provided.query.ChangeLogDetailFinder;
 import com.sprint.hrbank.application.changelog.provided.query.ChangeLogPageMaker;
 import com.sprint.hrbank.application.changelog.required.ChangeLogRepository;
 import com.sprint.hrbank.application.employee.required.EmployeeRepository;
@@ -19,15 +21,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ChangeLogQueryService implements ChangeLogPageMaker {
+public class ChangeLogQueryService
+    implements ChangeLogPageMaker, ChangeLogCounter, ChangeLogDetailFinder {
 
   private final ChangeLogRepository changeLogRepository;
   private final EmployeeRepository employeeRepository;
   private final DiffService diffService;
 
   @Transactional(readOnly = true)
-  public List<ChangeLogResponseDto> getChangeLog(ChangeLogSearchCond cond) {
-    return changeLogRepository.search(cond).stream().map(ChangeLogResponseDto::from).toList();
+  public List<ChangeLogDto> getChangeLog(ChangeLogSearchCond cond) {
+    return changeLogRepository.search(cond).stream().map(ChangeLogDto::from).toList();
   }
 
   @Override
@@ -37,7 +40,7 @@ public class ChangeLogQueryService implements ChangeLogPageMaker {
     int size = cond.size();
     boolean hasNext = searched.size() > size;
     List<ChangeLog> paged = hasNext ? searched.subList(0, size) : searched;
-    List<ChangeLogResponseDto> content = paged.stream().map(ChangeLogResponseDto::from).toList();
+    List<ChangeLogDto> content = paged.stream().map(ChangeLogDto::from).toList();
 
     String nextCursor = null;
     Long nextIdAfter = null;
@@ -68,6 +71,7 @@ public class ChangeLogQueryService implements ChangeLogPageMaker {
   }
 
   @Transactional(readOnly = true)
+  @Override
   public Long getChangeLogCount(LocalDateTime fromDate, LocalDateTime toDate) {
     LocalDateTime now = LocalDateTime.now();
     LocalDateTime from = fromDate == null ? now.minusDays(7) : fromDate;
@@ -81,6 +85,7 @@ public class ChangeLogQueryService implements ChangeLogPageMaker {
   }
 
   @Transactional(readOnly = true)
+  @Override
   public ChangeLogDetailDto getChangeLogDetail(Long changeLogId) {
     ChangeLog changeLog =
         changeLogRepository
