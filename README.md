@@ -8,10 +8,10 @@
 
 ## 🧑‍💻 팀원 구성
 
-|                               박태양                               |                   김어진                    |                      신상엽                       |                 박성욱                  |                조예준                 |               정수환                |
-|:------------------------------------------------------------------:|:-------------------------------------------:|:-------------------------------------------------:|:---------------------------------------:|:-------------------------------------:|:-----------------------------------:|
-|                                팀장                                |                    팀원                     |                       팀원                        |                  팀원                   |                 팀원                  |                팀원                 |
-| [parksunovo]([https://github.com/](https://github.com/parksunovo)) | [rladjwls02](https://github.com/rladjwls02) | [   Smil-limS   ]((https://github.com/Smil-limS)) | [ziezz767](https://github.com/ziezz767) | [joyejun](https://github.com/joyejun) | [swanhw](https://github.com/swanhw) |
+|                   박태양                    |                   김어진                    |                     신상엽                      |                 박성욱                  |                조예준                 |               정수환                |
+|:-------------------------------------------:|:-------------------------------------------:|:-----------------------------------------------:|:---------------------------------------:|:-------------------------------------:|:-----------------------------------:|
+|                    팀장                     |                    팀원                     |                      팀원                       |                  팀원                   |                 팀원                  |                팀원                 |
+| [parksunovo](https://github.com/parksunovo) | [rladjwls02](https://github.com/rladjwls02) | [   Smil-limS   ](https://github.com/Smil-limS) | [ziezz767](https://github.com/ziezz767) | [joyejun](https://github.com/joyejun) | [swanhw](https://github.com/swanhw) |
 
 ---
 
