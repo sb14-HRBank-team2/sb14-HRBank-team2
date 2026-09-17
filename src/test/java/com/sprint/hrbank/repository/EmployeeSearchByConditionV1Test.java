@@ -2,8 +2,8 @@ package com.sprint.hrbank.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.sprint.hrbank.adapter.persistence.employee.EmployeeSearchCond;
 import com.sprint.hrbank.application.department.required.DepartmentRepository;
-import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
 import com.sprint.hrbank.application.employee.required.EmployeeRepository;
 import com.sprint.hrbank.domain.department.Department;
 import com.sprint.hrbank.domain.employee.Employee;

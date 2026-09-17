@@ -2,10 +2,10 @@ package com.sprint.hrbank.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.sprint.hrbank.adapter.persistence.employee.EmployeeSearchCond;
 import com.sprint.hrbank.application.department.required.DepartmentRepository;
 import com.sprint.hrbank.application.employee.dto.CursorPageResponseEmployeeDto;
 import com.sprint.hrbank.application.employee.provided.query.EmployeePageMaker;
-import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
 import com.sprint.hrbank.domain.department.Department;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

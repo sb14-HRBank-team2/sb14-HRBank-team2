@@ -2,6 +2,7 @@ package com.sprint.hrbank.application.employee;
 
 import static com.sprint.hrbank.application.employee.validation.EmployeeSearchCondValidator.validateEmployeeSearchCond;
 
+import com.sprint.hrbank.adapter.persistence.employee.EmployeeSearchCond;
 import com.sprint.hrbank.application.employee.dto.CursorPageResponseEmployeeDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeAllFinder;
@@ -9,7 +10,6 @@ import com.sprint.hrbank.application.employee.provided.query.EmployeeCounter;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeEntityFinder;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeFinder;
 import com.sprint.hrbank.application.employee.provided.query.EmployeePageMaker;
-import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
 import com.sprint.hrbank.application.employee.required.EmployeeRepository;
 import com.sprint.hrbank.common.exception.CustomRuntimeException;
 import com.sprint.hrbank.common.exception.ExceptionType;

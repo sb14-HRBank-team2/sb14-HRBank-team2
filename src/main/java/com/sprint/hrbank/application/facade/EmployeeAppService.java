@@ -4,16 +4,17 @@ import com.sprint.hrbank.application.changelog.dto.ChangeLogCreateRequestDto;
 import com.sprint.hrbank.application.changelog.dto.DiffCreateRequestDto;
 import com.sprint.hrbank.application.changelog.provided.command.ChangeLogCreator;
 import com.sprint.hrbank.application.department.provided.query.DepartmentFinder;
-import com.sprint.hrbank.application.employee.EmployeeCommandService;
 import com.sprint.hrbank.application.employee.EmployeeDiffFinder;
-import com.sprint.hrbank.application.employee.EmployeeQueryService;
 import com.sprint.hrbank.application.employee.dto.EmployeeCreateRequest;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeUpdateRequest;
 import com.sprint.hrbank.application.employee.provided.command.EmployeeCleaner;
+import com.sprint.hrbank.application.employee.provided.command.EmployeeCommand;
 import com.sprint.hrbank.application.employee.provided.command.EmployeeModifier;
 import com.sprint.hrbank.application.employee.provided.command.EmployeeRegister;
-import com.sprint.hrbank.application.fileinfo.FileInfoService;
+import com.sprint.hrbank.application.employee.provided.query.EmployeeEntityFinder;
+import com.sprint.hrbank.application.fileinfo.FileCleaner;
+import com.sprint.hrbank.application.fileinfo.FileUploader;
 import com.sprint.hrbank.domain.chagelog.ChangeType;
 import com.sprint.hrbank.domain.department.Department;
 import com.sprint.hrbank.domain.employee.Employee;
@@ -28,10 +29,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, EmployeeModifier {
 
   private final DepartmentFinder departmentFinder;
-  private final EmployeeQueryService employeeQueryService;
-  private final FileInfoService fileService;
-  private final EmployeeCommandService employeeCommandService;
+  private final EmployeeCommand employeeCommand;
   private final ChangeLogCreator changeLogCreator;
+  private final EmployeeEntityFinder employeeEntityFinder;
+  private final FileUploader fileUploader;
+  private final FileCleaner fileCleaner;
 
   @Override
   @Transactional
@@ -40,11 +42,10 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
     Department department = departmentFinder.getById(employeeCreateRequest.departmentId());
     Long profileImageId = null;
     if (profile != null && !profile.isEmpty()) {
-      profileImageId = fileService.uploadFile(profile);
+      profileImageId = fileUploader.uploadFile(profile);
     }
 
-    Employee employee =
-        employeeCommandService.create(employeeCreateRequest, department, profileImageId);
+    Employee employee = employeeCommand.create(employeeCreateRequest, department, profileImageId);
     // 이력생성
     List<DiffCreateRequestDto> diffs =
         List.of(
@@ -69,7 +70,7 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
   @Transactional
   public void deleteById(Long employeeId, String ipAddress) {
 
-    Employee target = employeeQueryService.getEmployee(employeeId);
+    Employee target = employeeEntityFinder.getEmployee(employeeId);
     // 이력생성
     List<DiffCreateRequestDto> diffs =
         List.of(
@@ -85,9 +86,9 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
             ChangeType.DELETED, target.getEmployeeNumber(), "직원 삭제", diffs);
     changeLogCreator.create(dto, ipAddress);
     if (target.getProfileImageId() != null) {
-      fileService.deleteFile(target.getProfileImageId());
+      fileCleaner.deleteFile(target.getProfileImageId());
     }
-    employeeCommandService.delete(target);
+    employeeCommand.delete(target);
   }
 
   @Override
@@ -97,10 +98,10 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
 
     Long profileImageId = null;
     if (profile != null && !profile.isEmpty()) {
-      profileImageId = fileService.uploadFile(profile);
+      profileImageId = fileUploader.uploadFile(profile);
     }
 
-    Employee employee = employeeQueryService.getEmployee(employeeId);
+    Employee employee = employeeEntityFinder.getEmployee(employeeId);
 
     Department department = employee.getDepartment();
     if (request.departmentId() != null) {
@@ -111,7 +112,7 @@ public class EmployeeAppService implements EmployeeRegister, EmployeeCleaner, Em
         EmployeeDiffFinder.createUpdateDiffs(employee, request, department);
 
     Employee update =
-        employeeCommandService.update(
+        employeeCommand.update(
             employee,
             request.name(),
             request.email(),

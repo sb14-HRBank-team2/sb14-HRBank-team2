@@ -1,5 +1,6 @@
 package com.sprint.hrbank.adapter.webapi.employee;
 
+import com.sprint.hrbank.adapter.persistence.employee.EmployeeSearchCond;
 import com.sprint.hrbank.application.employee.dto.CursorPageResponseEmployeeDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeCreateRequest;
 import com.sprint.hrbank.application.employee.dto.EmployeeDto;
@@ -9,7 +10,6 @@ import com.sprint.hrbank.application.employee.provided.command.EmployeeModifier;
 import com.sprint.hrbank.application.employee.provided.command.EmployeeRegister;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeFinder;
 import com.sprint.hrbank.application.employee.provided.query.EmployeePageMaker;
-import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
