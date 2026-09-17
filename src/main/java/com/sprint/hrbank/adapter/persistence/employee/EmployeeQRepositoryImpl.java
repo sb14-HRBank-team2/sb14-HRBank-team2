@@ -12,7 +12,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sprint.hrbank.application.employee.dto.EmployeeDistributionDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeTrendDto;
-import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
 import com.sprint.hrbank.common.exception.CustomRuntimeException;
 import com.sprint.hrbank.common.exception.ExceptionType;
 import com.sprint.hrbank.domain.employee.Employee;
@@ -92,7 +91,7 @@ public class EmployeeQRepositoryImpl implements EmployeeQRepository {
       Long change = i == 0 ? 0L : count - previousCount;
       double changeRate;
       if (i == 0 || previousCount == 0) {
-        changeRate = 100;
+        changeRate = 0;
       } else {
         changeRate = Math.round(change * 1000.0 / previousCount) / 10.0;
       }

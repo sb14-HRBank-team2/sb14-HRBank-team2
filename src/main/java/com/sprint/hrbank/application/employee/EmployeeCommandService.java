@@ -1,6 +1,7 @@
 package com.sprint.hrbank.application.employee;
 
 import com.sprint.hrbank.application.employee.dto.EmployeeCreateRequest;
+import com.sprint.hrbank.application.employee.provided.command.EmployeeCommand;
 import com.sprint.hrbank.application.employee.required.EmployeeRepository;
 import com.sprint.hrbank.domain.department.Department;
 import com.sprint.hrbank.domain.employee.Employee;
@@ -11,10 +12,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class EmployeeCommandService {
+public class EmployeeCommandService implements EmployeeCommand {
 
   private final EmployeeRepository employeeRepository;
 
+  @Override
   public Employee create(
       EmployeeCreateRequest request, Department department, Long profileImageID) {
     Employee employee =
@@ -28,10 +30,12 @@ public class EmployeeCommandService {
     return employeeRepository.save(employee);
   }
 
+  @Override
   public void delete(Employee employee) {
     employeeRepository.delete(employee);
   }
 
+  @Override
   public Employee update(
       Employee employee,
       String name,

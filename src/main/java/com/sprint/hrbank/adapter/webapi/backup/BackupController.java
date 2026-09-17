@@ -1,10 +1,11 @@
 package com.sprint.hrbank.adapter.webapi.backup;
 
 import com.sprint.hrbank.adapter.persistence.backup.BackupSearchCond;
-import com.sprint.hrbank.application.backup.BackupCommandService;
-import com.sprint.hrbank.application.backup.BackupQueryService;
 import com.sprint.hrbank.application.backup.dto.BackupDto;
 import com.sprint.hrbank.application.backup.dto.CursorPageResponseBackupDto;
+import com.sprint.hrbank.application.backup.provided.command.BackupCreator;
+import com.sprint.hrbank.application.backup.provided.query.BackupLatestFinder;
+import com.sprint.hrbank.application.backup.provided.query.BackupPageMaker;
 import com.sprint.hrbank.domain.backup.BackupStatus;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -21,23 +22,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/backups")
 public class BackupController {
 
-  private final BackupCommandService backupCommandService;
-  private final BackupQueryService backupQueryService;
+  private final BackupCreator creator;
+  private final BackupLatestFinder finder;
+  private final BackupPageMaker maker;
 
   @PostMapping
   public BackupDto createBackup(HttpServletRequest request) {
-    return backupCommandService.create(request.getRemoteAddr());
+    return creator.create(request.getRemoteAddr());
   }
 
   @GetMapping("/latest")
   public BackupDto getLatestBackup(@RequestParam(defaultValue = "COMPLETED") BackupStatus status) {
-    return backupQueryService.getLatestBackupByStatus(status);
+    return finder.getLatestBackupByStatus(status);
   }
 
   @GetMapping
   public ResponseEntity<CursorPageResponseBackupDto> getBackups(
       @ModelAttribute BackupSearchCond cond) {
-    CursorPageResponseBackupDto response = backupQueryService.getBackups(cond);
+    CursorPageResponseBackupDto response = maker.getBackups(cond);
     return ResponseEntity.ok(response);
   }
 }
