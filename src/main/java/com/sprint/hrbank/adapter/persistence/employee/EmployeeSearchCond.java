@@ -1,4 +1,4 @@
-package com.sprint.hrbank.application.employee.provided.query;
+package com.sprint.hrbank.adapter.persistence.employee;
 
 import com.sprint.hrbank.domain.employee.EmployeeStatus;
 import java.time.LocalDate;

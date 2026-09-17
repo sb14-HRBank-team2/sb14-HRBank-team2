@@ -1,9 +1,9 @@
 package com.sprint.hrbank.application.employee;
 
+import com.sprint.hrbank.adapter.persistence.employee.EmployeeSearchCond;
 import com.sprint.hrbank.application.employee.dto.EmployeeDistributionDto;
 import com.sprint.hrbank.application.employee.dto.EmployeeTrendDto;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeDistributionFinder;
-import com.sprint.hrbank.application.employee.provided.query.EmployeeSearchCond;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeStatisticsFinder;
 import com.sprint.hrbank.application.employee.provided.query.EmployeeTrendFinder;
 import com.sprint.hrbank.application.employee.required.EmployeeRepository;

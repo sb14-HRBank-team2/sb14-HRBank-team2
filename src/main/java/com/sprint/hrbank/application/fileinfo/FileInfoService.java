@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-public class FileInfoService implements FileCreater, FileDownloader {
+public class FileInfoService implements FileCreater, FileDownloader, FileUploader, FileCleaner {
 
   private final FileInfoRepository fileInfoRepository;
 
@@ -60,6 +60,7 @@ public class FileInfoService implements FileCreater, FileDownloader {
   }
 
   @Transactional
+  @Override
   public Long uploadFile(MultipartFile file) {
     try {
       String originalFilename = file.getOriginalFilename();
@@ -89,6 +90,7 @@ public class FileInfoService implements FileCreater, FileDownloader {
   }
 
   @Transactional
+  @Override
   public void deleteFile(Long fileId) {
     if (fileId == null) {
       return;
