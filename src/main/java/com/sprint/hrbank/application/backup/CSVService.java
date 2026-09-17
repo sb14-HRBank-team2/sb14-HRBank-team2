@@ -36,6 +36,7 @@ public class CSVService {
       Files.createDirectories(path.getParent());
 
       try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
+        writer.write('\uFEFF');
         writer.write("ID,직원번호,이름,이메일,부서,직급,입사일,상태");
         writer.newLine();
 
